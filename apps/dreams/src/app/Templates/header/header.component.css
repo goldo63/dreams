@@ -1,0 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+header{
+    background-color: #08061C;
+    background-image: url("../../../assets/images/shared/Background.gif");
+    margin-bottom: 40px;
+    overflow-x: hidden;
+}
+    header .content{
+        position: relative;
+        top: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+        header .content img{
+            height: 50px;
+            margin: 20px 0;
+            transition: 0.5s;
+        }
+
+        header .content ul{
+            margin: 0;
+            list-style: none;
+            font-family: 'Fredoka One', cursive;
+            display: flex;
+            gap: 30px;
+        }
+            header .content ul li{
+                color: white !important;
+                font-size: 25px;
+                font-weight: bold;
+            }
+            header .content ul li:hover, header .content ul li:focus{
+                color: #f3ea8b !important;
+            }
+
+    header .bottomBorder{
+        position: relative;
+        width: 200%;
+        height: 40px;
+        
+        background-image: url("../../../assets/images/shared/Bottom.png");
+        background-position: bottom center;
+        background-size: 500px 40px;
+        background-repeat: repeat-x;
+
+        left: -80px;
+        animation-name: shift;
+        animation-duration: 18s;
+        animation-iteration-count: infinite;
+        animation-timing-function: ease-in-out;
+    }
+
+@keyframes shift {
+    0%   {left: -80px;}
+    50%  {left: 0px;}
+    100% {left: -80px;}
+}
