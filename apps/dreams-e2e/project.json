@@ -1,0 +1,33 @@
+{
+  "name": "dreams-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/dreams-e2e/src",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/dreams-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "dreams:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "dreams:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "dreams:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/dreams-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["dreams"]
+}
