@@ -1,0 +1,32 @@
+/* .dreamBubbles{
+    position: relative;
+}
+.bubble{
+    position: absolute;
+    border-radius: 100%;
+    z-index: -1;
+
+    background-image: url("../../assets/images/shared/Background.gif");
+}
+#bubble1{
+    width: 100px;
+    height: 100px;
+    left: 80px;
+}
+#bubble2{
+    width: 65px;
+    height: 65px;
+    left: 155px;
+    top: 115px;
+}
+#bubble3{
+    width: 30px;
+    height: 30px;
+    left: 220px;
+    top: 200px;
+} */
+
+.content{
+    z-index: 2;
+    background-color: white;
+}

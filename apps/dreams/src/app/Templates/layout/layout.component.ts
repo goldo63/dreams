@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap'; 
 
 @Component({
   selector: 'dreams-layout',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.css'],
 })
-export class LayoutComponent {}
+export class LayoutComponent implements OnInit {
+  constructor() {}
+
+  ngOnInit(): void {}
+}
