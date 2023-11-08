@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap'; 
+import {AppRoutingModule} from '../../app.routes'
 
 @Component({
   selector: 'dreams-layout',

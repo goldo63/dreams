@@ -1,8 +1,10 @@
 import { Route } from '@angular/router';
 import { AboutComponent } from './Pages/About/about.component'
 import { LayoutComponent } from './Templates/layout/layout.component'
+import { Routes, RouterModule } from '@angular/router'
+import { NgModule } from '@angular/core';
 
-export const appRoutes: Route[] = [
+const routes: Routes = [
     {
         path: '',
         component: LayoutComponent,
@@ -13,3 +15,9 @@ export const appRoutes: Route[] = [
         ]
     }
 ];
+
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule]
+  })
+  export class AppRoutingModule {}
