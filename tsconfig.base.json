@@ -14,7 +14,13 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@dreams/backend/features": ["libs/backend/features/src/index.ts"],
+      "@dreams/frontend/components": ["libs/frontend/components/src/index.ts"],
+      "@dreams/shared/auth": ["libs/shared/auth/src/index.ts"],
+      "@dreams/shared/models": ["libs/shared/models/src/index.ts"],
+      "@dreams/shared/services": ["libs/shared/services/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }
