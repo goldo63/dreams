@@ -1,0 +1,203 @@
+<div class="row">
+    <div class="col-sm-6 col-md-8 col-lg-9">
+        <h3 id="aboutTitle">Over deze applicatie</h3>
+        <p>
+            Deze applicatie is gemaakt in het kader van het vak 'Clientside web
+            frameworks' van Avans Hogeschool Breda.
+        </p>
+        <h1>Dreams</h1>
+        <p>
+            Dreams (Name pending)™ is een forum website waar gebruikers berichten kan plaatsen over dromen of wensen die zij hebben.
+            Hierbij kunnen zij hulp krijgen van andere gebruikers om deze droom waar te maken.
+            Deze dromen kunnen groot of klein zijn bijvoorbeeld wil een gebruiker een bakkerij beginnen maar weet niet precies hoe en plaatst een bericht op Dreams (Name pending)™.
+             Andere gebruikers reageren hierop met belangrijke bronnen en stappen over het beginnen van een bedrijf en het bakken van brood.
+        </p>
+    </div>
+    <div class="col-sm-6 col-md-4 col-lg-3">
+        <div class="card">
+            <div
+                class="d-flex justify-content-center align-items-center px-3 py-3"
+            >
+                <!-- Je mag een foto van jezelf toevoegen, maar dat is niet verplicht. -->
+                <img
+                    src="assets/images/about/person.png"
+                    class="card-img-top rounded-circle border profile-pic px-4 py-4"
+                    alt="..."
+                />
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Tim Aerts</h5>
+                <p class="card-text">Studentnummer: 2173544</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3>Entiteiten</h3>
+<p>
+    Hier geef je een toelichting op je entiteiten. Voeg ook een afbeelding van
+    je model toe zoals dat bij NoSql gevraagd wordt.
+</p>
+
+<img src="assets/images/about/erd.png" class="px-5 py-5" alt="..." />
+
+<div class="row">
+    <div class="col-sm-12 col-md-4">
+        <p>User</p>
+        <ul>
+            <li>id: string</li>
+            <li>email: string</li>
+            <li>username: string</li>
+            <li>firstname: string</li>
+            <li>lastname: string</li>
+            <li>phonenumber: string</li>
+            <li>registerdate: date</li>
+            <li>password: string</li>
+
+            <li>network: users</li>
+        </ul>
+    </div>
+    <div class="col-sm-12 col-md-4">
+        <p>Organisation</p>
+        <ul>
+            <li>id: string</li>
+            <li>organisationcode: string</li>
+            <li>name: string</li>
+            <li>phonenumber: string</li>
+            <li>registerdate: date</li>
+            <li>password: string</li>
+            <li>verified: boolean</li>
+
+            <li>members: users</li>
+        </ul>
+    </div>
+    <div class="col-sm-12 col-md-4">
+        <p>Post</p>
+        <ul>
+            <li>id: string</li>
+            <li>titel: string</li>
+            <li>img: blob</li>
+            <li>vid: blob</li>
+            <li>context: string</li>
+            <li>readAvailability: int</li>
+            <li>tag: tags -> name: string, color: string</li>
+            <li>Poster: User OR Organisation</li>
+        </ul>
+    </div>
+    <div class="col-sm-12 col-md-4">
+        <p>Reaction</p>
+        <ul>
+            <li>id: string</li>
+            <li>vote: boolean</li>
+            <li>context: string</li>
+            <li>reactiondate: date</li>
+        </ul>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <h3>Userstories</h3>
+        <p>
+            Hier verwoord je in de vorm van userstories de functionaliteit van
+            jouw applicatie.
+        </p>
+
+        <table class="table table-bordered">
+            <thead>
+                <th>Nr</th>
+                <th class="col-6">Userstory</th>
+                <th>Evt toelichting</th>
+            </thead>
+            <tbody class="forceHeight">
+                <tr>
+                    <td>1</td>
+                    <td>
+                        Als gebruiker wil ik een overzicht van posts kunnen
+                        raadplegen, zodat ik kan zien wat andere gebruikers hulp bij nodig hebben.
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>
+                        Als ingelogde gebruiker of ingelogde organisatie wil ik zelf een post kunnen
+                        toevoegen, zodat ik hulp kan krijgen van andere gebruikers.
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>
+                        Als ingelogde gebruiker of ingelogde organisatie wil ik mijn eigen posts kunnen
+                        bewerken en verwijderen, zodat ik mijn informatie
+                        up-to-date kan houden.
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>
+                        <p>Als ingelogde gebruiker of ingelogde organisatie wil ik een reactie toe kunnen voegen aan een post
+                            zodat ik andere gebruikers kan helpen
+                        </p>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>
+                        <p>Als ingelogde gebruike of ingelogde organisatier wil ik mijn reacties kunnen verwijderen of aanpassen
+                            zodat ik mijn informatie up-to-date kan houden. 
+                        </p>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>
+                        <p>Als ingelogde gebruiker wil ik een organisatie aan kunnen maken
+                            zodat ik posts kan beheren met meerdere gebruikers. 
+                        </p>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td>
+                        <p>Als ingelogde gebruiker wil ik mijn organisaties kunnen bekijken
+                            zodat ik weet in welke organisaties ik zit. 
+                        </p>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>
+                        <p>Als organisatie eigenaar wil ik een organisatie kunnen bewerken en verwijderen
+                            zodat ik mijn informatie up-to-date kan houden. 
+                        </p>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>
+                        <p>Als organisatie eigenaar wil ik een organisatie kunnen bewerken en verwijderen
+                            zodat ik mijn informatie up-to-date kan houden. 
+                        </p>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td>
+                        <p>Als ingelogde gebruiker wil ik in kunnen loggen op een organisatie waar ik lid van ben
+                        zodat ik posts en reacties kan beheren van de organisatie</p>
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
