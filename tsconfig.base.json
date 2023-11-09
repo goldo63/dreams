@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@dreams/frontend/ui": ["libs/frontend/ui/src/index.ts"],
       "@dreams/backend/features": ["libs/backend/features/src/index.ts"],
       "@dreams/frontend/components": ["libs/frontend/components/src/index.ts"],
       "@dreams/shared/auth": ["libs/shared/auth/src/index.ts"],
