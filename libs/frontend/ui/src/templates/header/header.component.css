@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
 header{
     background-color: #08061C;
-    background-image: url("../../../assets/images/shared/Background.gif");
+    background-image: url("../assets/Background.gif");
     margin-bottom: 40px;
     overflow-x: hidden;
 }
@@ -39,7 +39,7 @@ header{
         width: 200%;
         height: 40px;
         
-        background-image: url("../../../assets/images/shared/Bottom.png");
+        background-image: url("../assets/Bottom.png");
         background-position: bottom center;
         background-size: 500px 40px;
         background-repeat: repeat-x;
