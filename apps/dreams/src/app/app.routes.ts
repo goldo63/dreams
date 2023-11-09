@@ -1,4 +1,4 @@
-import { HeaderComponent, AboutComponent } from '@dreams/frontend/ui';
+import { AboutComponent } from '@dreams/frontend/ui';
 import { Routes, RouterModule } from '@angular/router'
 import { NgModule } from '@angular/core';
 
