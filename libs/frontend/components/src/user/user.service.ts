@@ -31,6 +31,29 @@ export class UserService {
                 verified: false
             }
         },
+        {
+            id: 2,
+            phoneNumber: '123',
+            dateOfRegistration: new Date(),
+            password: 'password',
+            accountDetails: {
+                email: 'test@example.com',
+                username: 'test2',
+                firstName: 'test',
+                lastName: 'test',
+            }
+        },
+        {
+            id: 3,
+            phoneNumber: '123',
+            dateOfRegistration: new Date(),
+            password: 'password',
+            accountDetails: {
+                organisationCode: '123',
+                name: 'test',
+                verified: false
+            }
+        },
     ];
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function

@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { UserService } from './user.service';
+import { Observable, switchMap } from 'rxjs';
+import { IAccount } from '@dreams/shared/models';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { AccountValidator } from '@dreams/shared/services';
 
 @Component({
   selector: 'dreams-user',
@@ -9,6 +14,21 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./user.component.css'],
 })
 export class UserComponent {
+  users$: IAccount[] = [];
 
-  
+  constructor(
+    private userService: UserService,
+    private route: ActivatedRoute
+  ) {}
+
+  ngOnInit(): void {
+    this.userService.getAll().subscribe(users => {
+      this.users$ = users;
+    });
+  }
+
+  get accountValidator(): typeof AccountValidator {
+    return AccountValidator;
+  }
+
 }
