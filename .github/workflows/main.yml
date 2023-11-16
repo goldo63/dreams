@@ -27,8 +27,11 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Build Nx Workspace
-        run: nx build data-api,dreams
+      - name: Build Nx Workspace - data-api
+        run: nx build data-api
+
+      - name: Build Nx Workspace - dreams
+        run: nx build dreams
 
       - name: List Contents of dist
         run: ls -R dist
