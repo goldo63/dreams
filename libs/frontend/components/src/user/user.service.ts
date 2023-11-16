@@ -72,7 +72,6 @@ export class UserService {
     }
 
     create(user: IAccount): Observable<IAccount[]> {
-        // Simulate an asynchronous operation, for example, saving to a backend.
         return of(user).pipe(
           map((newUser: IAccount) => {
             this.users.push(newUser);
