@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IAccount, ICompany, IUser } from '@dreams/shared/models';
 import { AccountValidator } from '@dreams/shared/services';
-import { BehaviorSubject, Observable, filter, from, of, take } from 'rxjs';
+import { BehaviorSubject, Observable, delay, filter, from, map, of, take } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -70,4 +70,28 @@ export class UserService {
             take(1)
         )
     }
+
+    create(user: IAccount): Observable<IAccount[]> {
+        // Simulate an asynchronous operation, for example, saving to a backend.
+        return of(user).pipe(
+          map((newUser: IAccount) => {
+            this.users.push(newUser);
+            return this.users;
+          })
+        );
+    }
+
+    update(user: IAccount): Observable<IAccount[]> {
+        return of(user).pipe(
+          map((updatedUser: IAccount) => {
+            const index = this.users.findIndex(u => u.id === updatedUser.id);
+            if (index !== -1) {
+              this.users[index] = updatedUser;
+            }
+      
+            // Return the updated array
+            return this.users;
+          })
+        );
+      }
 }

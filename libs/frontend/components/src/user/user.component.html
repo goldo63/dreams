@@ -9,10 +9,13 @@
             <p>First Name: {{ user.accountDetails.firstName }}</p>
             <p>Last Name: {{ user.accountDetails.lastName }}</p>
             <!-- Add other user properties as needed -->
+            <a [routerLink]="[user.id]" type="submit" class="btn btn-primary">Details</a>
+            <a [routerLink]="[user.id, 'update']" type="submit" class="btn btn-primary">Update</a>
           </ng-container>
           <ng-template #noAccountDetailsTemplate>
-            <h2>No User Details</h2>
+            <h2>An error occured with this user</h2>
           </ng-template>
+          <hr>
     </div>
 </div>
 <ng-template #loadingTemplate>

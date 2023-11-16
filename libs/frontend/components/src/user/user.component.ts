@@ -3,13 +3,11 @@ import { CommonModule } from '@angular/common';
 import { UserService } from './user.service';
 import { Observable, switchMap } from 'rxjs';
 import { IAccount } from '@dreams/shared/models';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AccountValidator } from '@dreams/shared/services';
 
 @Component({
   selector: 'dreams-user',
-  standalone: true,
-  imports: [CommonModule],
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
 })
@@ -18,7 +16,6 @@ export class UserComponent {
 
   constructor(
     private userService: UserService,
-    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
