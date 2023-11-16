@@ -14,6 +14,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: Nrwl Nx   
+        uses: MansaGroup/nrwl-nx-action@v3.2.2
+        
       - uses: actions/checkout@v4
 
       - name: Set up Node.js version
