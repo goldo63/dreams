@@ -28,7 +28,7 @@ jobs:
         run: npm install
 
       - name: Build Nx Workspace
-        run: nx build
+        run: nx build data-api,dreams
 
       - name: List Contents of dist
         run: ls -R dist
