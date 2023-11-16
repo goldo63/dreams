@@ -21,6 +21,9 @@ jobs:
         with:
           node-version: '18.x'
 
+      - name: Install Nx CLI
+        run: npm install -g nx
+
       - name: Install Dependencies
         run: npm install
 
