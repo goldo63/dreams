@@ -30,8 +30,8 @@ jobs:
       - name: Zip artifacts for deployment
         run: |
           echo ${GITHUB_WORKSPACE}
-          cd ${GITHUB_WORKSPACE}/dist/apps/data-api/ && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
-          cd ${GITHUB_WORKSPACE}/dist/apps/dreams/ && zip ${GITHUB_WORKSPACE}/dreams-release.zip ./* -r
+          cd ${GITHUB_WORKSPACE}/dist/apps/data-api && zip ${GITHUB_WORKSPACE}/data-api-release.zip ./* -r
+          cd ${GITHUB_WORKSPACE}/dist/apps/dreams && zip ${GITHUB_WORKSPACE}/dreams-release.zip ./* -r
 
       - name: Upload dreams artifact for deployment job
         uses: actions/upload-artifact@v3
