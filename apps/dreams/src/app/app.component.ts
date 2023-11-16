@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { UiModule } from '@dreams/frontend/ui';
 
 @Component({
   selector: 'dreams-root',

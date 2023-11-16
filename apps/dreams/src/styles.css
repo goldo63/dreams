@@ -4,14 +4,17 @@
     padding: 0;
 }
 .content{
-    max-width: 1200px;
+    max-width: 1250px;
     margin: 0 auto;
+    padding: 0 25px;
 }
 
 h1{
     font-family: 'Fredoka One', cursive;
 }
-
+main {
+    padding-bottom: 50px;
+}
 main a{
     color: #483d8b;
 }

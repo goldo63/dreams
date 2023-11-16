@@ -1,0 +1,18 @@
+<p>detailUser works!</p>
+
+<!-- detail-user.component.html -->
+<div *ngIf="(user$ | async) as user; else loadingTemplate">
+    <ng-container *ngIf="accountValidator.isUser(user.accountDetails); else noAccountDetailsTemplate">
+      <h2>{{ user.accountDetails.username }}</h2>
+      <p>Email: {{ user.accountDetails.email }}</p>
+      <p>First Name: {{ user.accountDetails.firstName }}</p>
+      <p>Last Name: {{ user.accountDetails.lastName }}</p>
+      <!-- Add other user properties as needed -->
+    </ng-container>
+    <ng-template #noAccountDetailsTemplate>
+      <h2>No Account Details</h2>
+    </ng-template>
+</div>
+<ng-template #loadingTemplate>
+  <h2>Loading...</h2>
+</ng-template>

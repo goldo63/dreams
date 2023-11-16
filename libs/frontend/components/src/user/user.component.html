@@ -1,0 +1,23 @@
+<p>user works!</p>
+
+<!-- detail-user.component.html -->
+<div *ngIf="users$.length; else loadingTemplate">
+    <div *ngFor="let user of users$; let i = index">
+        <ng-container *ngIf="accountValidator.isUser(user.accountDetails); else noAccountDetailsTemplate">
+            <h2>{{ user.accountDetails.username }}</h2>
+            <p>Email: {{ user.accountDetails.email }}</p>
+            <p>First Name: {{ user.accountDetails.firstName }}</p>
+            <p>Last Name: {{ user.accountDetails.lastName }}</p>
+            <!-- Add other user properties as needed -->
+            <a [routerLink]="[user.id]" type="submit" class="btn btn-primary">Details</a>
+            <a [routerLink]="[user.id, 'update']" type="submit" class="btn btn-primary">Update</a>
+          </ng-container>
+          <ng-template #noAccountDetailsTemplate>
+            <h2>An error occured with this user</h2>
+          </ng-template>
+          <hr>
+    </div>
+</div>
+<ng-template #loadingTemplate>
+  <h2>Loading...</h2>
+</ng-template>
