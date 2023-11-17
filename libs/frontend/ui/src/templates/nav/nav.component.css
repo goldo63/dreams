@@ -1,0 +1,35 @@
+.nav-tabs{
+    background-color: transparent;
+    border: none;
+    font-family: Fredoka One,cursive;
+}
+    .nav-tabs li .topButton{
+      color: white !important;
+      font-size: 25px;
+      font-weight: bold;
+      background-color: transparent;
+      border: none;
+    }
+        .nav-tabs li .topButton:hover,
+        .nav-tabs li .topButton:focus {
+        color: #f3ea8b !important;
+        background-color: transparent;
+        border: none;
+        }   
+
+    .nav-tabs li .dropdown-toggle::after{
+        transform: rotate(0.5turn);
+        transition: 0.3s;
+    }
+    .nav-tabs li .dropdown-toggle[aria-expanded="true"]::after{
+        transform: rotate(0turn);
+    }
+    
+    .nav-tabs li .dropdown-item{
+        transition: 0.3s;
+    }    
+        .nav-tabs li .dropdown-item:hover,
+        .nav-tabs li .dropdown-item:focus {
+            color: #f3ea8b !important;
+            background-color: #280137 !important;
+        }

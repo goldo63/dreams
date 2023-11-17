@@ -21,3 +21,26 @@ main a{
 main a:hover{
     color: #241f45;
 }
+
+.btn {
+    background-color: #0D0012 !important;
+    color: white !important;
+  }
+  
+  /* Override primary button */
+  .btn-primary {
+    background-color: #280137 !important;
+    border-color: #280137 !important;
+  }
+  .btn-primary:hover {
+    background-color: #000 !important;
+    border-color: #000 !important;
+    color: #f3ea8b !important;
+  }
+  
+  /* Override secondary button */
+  .btn-secondary {
+
+    background-color: your-other-color !important;
+    border-color: your-other-color !important;
+  }

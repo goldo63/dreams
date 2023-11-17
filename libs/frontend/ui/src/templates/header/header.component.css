@@ -3,7 +3,6 @@ header{
     background-color: #08061C;
     background-image: url("../assets/Background.gif");
     margin-bottom: 40px;
-    overflow-x: hidden;
 }
     header .content{
         position: relative;
@@ -15,25 +14,11 @@ header{
         header .content img{
             height: 50px;
             margin: 20px 0;
-            transition: 0.5s;
+            /* transition: 0.5s; */
         }
-
-        header .content ul{
-            margin: 0;
-            list-style: none;
-            font-family: 'Fredoka One', cursive;
-            display: flex;
-            gap: 30px;
+        header .content .nav-link:hover img{
+            filter: brightness(0) saturate(100%) invert(81%) sepia(27%) saturate(554%) hue-rotate(11deg) brightness(111%) contrast(91%);
         }
-            header .content ul li{
-                color: white !important;
-                font-size: 25px;
-                font-weight: bold;
-            }
-            header .content ul li:hover, header .content ul li:focus{
-                color: #f3ea8b !important;
-            }
-
     header .bottomBorder{
         position: relative;
         width: 200%;

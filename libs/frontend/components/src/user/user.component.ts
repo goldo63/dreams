@@ -24,6 +24,12 @@ export class UserComponent {
     });
   }
 
+  onDeleteUser(userId: number): void {
+    this.userService.delete(userId).subscribe(users => {
+      this.users$ = users;
+    });
+  }
+
   get accountValidator(): typeof AccountValidator {
     return AccountValidator;
   }
