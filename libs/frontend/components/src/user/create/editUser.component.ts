@@ -35,10 +35,10 @@ export class EditUserComponent implements OnInit{
     this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
         if(params.get('id')){
-          this.updatingUser = false;
+          this.updatingUser = true;
           return this.userService.getById(parseInt(params.get('id') as string));
         } else{
-          this.updatingUser = true;
+          this.updatingUser = false;
           return of(this.user);
         }
       }),

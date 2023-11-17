@@ -14,7 +14,10 @@ header{
         header .content img{
             height: 50px;
             margin: 20px 0;
-            transition: 0.5s;
+            /* transition: 0.5s; */
+        }
+        header .content .nav-link:hover img{
+            filter: brightness(0) saturate(100%) invert(81%) sepia(27%) saturate(554%) hue-rotate(11deg) brightness(111%) contrast(91%);
         }
     header .bottomBorder{
         position: relative;
