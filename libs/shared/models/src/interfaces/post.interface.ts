@@ -12,7 +12,13 @@ export interface IPost {
 }
 
 export enum ReadAbility {
-    private,
-    unlisted,
-    public
+    private = 0,
+    unlisted = 1,
+    public = 2
 }
+
+export const ReadAbilityMapping: Record<ReadAbility, string> = {
+    [ReadAbility.private]: "Unlisted",
+    [ReadAbility.unlisted]: "Private",
+    [ReadAbility.public]: "Public"
+};

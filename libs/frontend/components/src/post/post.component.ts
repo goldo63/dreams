@@ -35,4 +35,10 @@ export class PostComponent {
     }
     return 'Unknown Account'
   }
+
+  onDeletePost(postId: number): void {
+    this.postService.delete(postId).subscribe(posts => {
+      this.posts$ = posts;
+    });
+  }
 }

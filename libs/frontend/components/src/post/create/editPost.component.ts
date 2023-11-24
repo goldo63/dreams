@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IPost, ReadAbility } from '@dreams/shared/models';
+import { IPost, ReadAbility, ReadAbilityMapping } from '@dreams/shared/models';
 import { PostService } from '../post.service';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -22,8 +22,6 @@ export class EditPostComponent implements OnInit {
       ['clean']
     ],
   };
-
-
   post: IPost = {
     id: 0,
     posterId: 0, // Assuming posterId is of type number, please adjust accordingly
@@ -35,6 +33,9 @@ export class EditPostComponent implements OnInit {
     readAbility: ReadAbility.public, // Adjust the type accordingly
   };
   updatingPost = false;
+
+  public ReadAbilityMapping = ReadAbilityMapping;
+  public readAbilityTypes: ReadAbility[] = Object.values(ReadAbility).filter(value => typeof value === 'number') as ReadAbility[];
 
   constructor(
     private route: ActivatedRoute,
@@ -61,6 +62,7 @@ export class EditPostComponent implements OnInit {
   }
 
   onSubmit(): void {
+    this.post.readAbility = +this.post.readAbility;
     if (this.updatingPost) {
       this.postService.update(this.post).subscribe((result) => {
         console.log('Result: ' + JSON.stringify(result));
@@ -72,5 +74,9 @@ export class EditPostComponent implements OnInit {
         this.router.navigate(['item/post']);
       });
     }
+  }
+
+  getEnumKeys(enumObj: any): string[] {
+    return Object.keys(enumObj).filter(key => isNaN(Number(enumObj[key])));
   }
 }

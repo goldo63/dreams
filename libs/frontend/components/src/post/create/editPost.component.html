@@ -22,6 +22,13 @@
   </div>
 
   <div class="mb-3 form-group">
+    <label for="readAbility" class="form-label">Read Ability:</label>
+    <select id="readAbility" name="readAbility" class="form-control" [(ngModel)]="post.readAbility">
+      <option [value]="stateType" *ngFor="let stateType of readAbilityTypes">{{ ReadAbilityMapping[stateType] }}</option>
+      </select>
+  </div>
+
+  <div class="mb-3 form-group">
     <label for="content" class="form-label quill-label">Content:</label>
     <quill-editor
       id="content"
@@ -29,14 +36,6 @@
       [(ngModel)]="post.content"
       [modules]="quillModules"
     ></quill-editor>
-  </div>
-
-  <div class="mb-3 form-group">
-    <label for="readAbility" class="form-label">Read Ability:</label>
-    <select id="readAbility" name="readAbility" class="form-control" [(ngModel)]="post.readAbility" #readAbility>
-      <option value="public">Public</option>
-      <option value="private">Private</option>
-    </select>
   </div>
 
   <button type="submit" class="btn btn-primary">Submit</button>
