@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
+import { QuillModule } from 'ngx-quill';
 
 import { UserComponent } from './user/user.component';
 import { EditUserComponent } from './user/create/editUser.component';
@@ -36,6 +37,7 @@ const componentRoute: Routes = [
     CommonModule,
     RouterModule,
     FormsModule,
+    QuillModule.forRoot(),
     RouterModule.forChild(componentRoute),
   ],
   exports: [RouterModule],

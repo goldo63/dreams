@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~quill/dist/quill.core.css";
+@import "~quill/dist/quill.snow.css";
+@import "~quill/dist/quill.bubble.css";
+
 *{
     margin: 0;
     padding: 0;
@@ -22,12 +26,12 @@ main a:hover{
     color: #241f45;
 }
 
+/* BUTTONS */
 .btn {
     background-color: #0D0012 !important;
     color: white !important;
   }
   
-  /* Override primary button */
   .btn-primary {
     background-color: #280137 !important;
     border-color: #280137 !important;
@@ -38,9 +42,18 @@ main a:hover{
     color: #f3ea8b !important;
   }
   
-  /* Override secondary button */
   .btn-secondary {
 
     background-color: your-other-color !important;
     border-color: your-other-color !important;
   }
+
+/* MISC GENERAL STYLING */
+.username{
+  margin-bottom: 0px;
+  cursor: pointer !important;
+  display: inline-block !important;
+}
+.username:hover{
+  text-decoration: underline;
+}

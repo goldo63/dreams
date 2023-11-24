@@ -1,1 +1,43 @@
 <p>editPost works!</p>
+
+<form class="container mt-4" (ngSubmit)="onSubmit()">
+  <div class="mb-3 form-group">
+    <label for="posterId" class="form-label">Poster ID:</label>
+    <input type="number" id="posterId" name="posterId" class="form-control" [(ngModel)]="post.posterId" #posterId>
+  </div>
+
+  <div class="mb-3 form-group">
+    <label for="title" class="form-label">Title:</label>
+    <input type="text" id="title" name="title" class="form-control" [(ngModel)]="post.title" #title>
+  </div>
+
+  <div class="mb-3 form-group">
+    <label for="imgUrl" class="form-label">Image URL:</label>
+    <input type="text" id="imgUrl" name="imgUrl" class="form-control" [(ngModel)]="post.imgUrl" #imgUrl>
+  </div>
+
+  <div class="mb-3 form-group">
+    <label for="videoUrl" class="form-label">Video URL:</label>
+    <input type="text" id="videoUrl" name="videoUrl" class="form-control" [(ngModel)]="post.videoUrl" #videoUrl>
+  </div>
+
+  <div class="mb-3 form-group">
+    <label for="content" class="form-label quill-label">Content:</label>
+    <quill-editor
+      id="content"
+      name="content"
+      [(ngModel)]="post.content"
+      [modules]="quillModules"
+    ></quill-editor>
+  </div>
+
+  <div class="mb-3 form-group">
+    <label for="readAbility" class="form-label">Read Ability:</label>
+    <select id="readAbility" name="readAbility" class="form-control" [(ngModel)]="post.readAbility" #readAbility>
+      <option value="public">Public</option>
+      <option value="private">Private</option>
+    </select>
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
