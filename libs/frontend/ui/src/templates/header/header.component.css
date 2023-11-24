@@ -19,6 +19,10 @@ header{
         header .content .nav-link:hover img{
             filter: brightness(0) saturate(100%) invert(81%) sepia(27%) saturate(554%) hue-rotate(11deg) brightness(111%) contrast(91%);
         }
+    header .maxWidthWrap{
+        width: inherit;
+        overflow-x: hidden;
+    }    
     header .bottomBorder{
         position: relative;
         width: 200%;

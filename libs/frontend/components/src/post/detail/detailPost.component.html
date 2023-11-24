@@ -1,0 +1,28 @@
+<div class="post" *ngIf="(post$ | async) as post; else loadingTemplate">
+
+    <div class="media" *ngIf="post.imgUrl || post.videoUrl">
+        <img *ngIf="post.imgUrl" src="{{post.imgUrl}}" alt="mainPostPicture">
+        <video *ngIf="post.videoUrl" controls>
+            <source src="{{post.videoUrl}}" type="video/mp4">
+            Dreams does not support the video tag.
+        </video>
+    </div>
+
+    <ng-container *ngIf="(user$ | async) as user;  else wrongUserTemplate">
+        <ng-container *ngIf="accountValidator.isUser(user.accountDetails);  else wrongUserTemplate">
+            <p [routerLink]='["../../user", user.id]' class="username">U/{{user.accountDetails.username}}</p>
+        </ng-container>
+    </ng-container>
+    <ng-template #wrongUserTemplate>
+        <p class="username">U/unknown</p>
+    </ng-template>
+    <h2>{{post.title}}</h2>
+    <hr>
+
+    <div [innerHTML]="post.content"></div>
+
+    
+</div>
+<ng-template #loadingTemplate>
+    <h2>Loading...</h2>
+</ng-template>
