@@ -1,0 +1,11 @@
+.media{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+    .media img, .media video{
+        height: auto;
+        width: 50%;
+        object-position: bottom center !important;
+        object-fit: cover;
+    }
