@@ -1,4 +1,4 @@
-import { Controller, Get, Logger } from '@nestjs/common';
+import { Controller, Get, Logger, Param } from '@nestjs/common';
 import { PostService } from './post.service';
 import { IPost } from '@dreams/shared/models';
 
@@ -11,5 +11,10 @@ export class PostController {
     @Get('')
     getAll(): Promise<IPost[]> {
         return this.postService.getAllpublic();
+    }
+
+    @Get(':id')
+    getById(@Param('id') id: number): Promise<IPost> {
+        return this.postService.getById(id);
     }
 }

@@ -1,4 +1,4 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { IPost, ReadAbility } from '@dreams/shared/models';
 import { BehaviorSubject, Observable, catchError, delay, filter, from, map, of, take } from 'rxjs';
 
@@ -112,11 +112,15 @@ export class PostService {
         return this.posts.filter(post => post.readAbility === ReadAbility.public);
     }
 
-    getById(id: number): Observable<IPost> {
-        return from(this.posts).pipe(
-            filter((post) => post.id === id),
-            take(1)
-        )
+    async getById(id: number): Promise<IPost> {
+      const parsedId = parseInt(id.toString(), 10); // Ensure the ID is a number
+      const foundPost = this.posts.find(post => post.id === parsedId);
+    
+      if (!foundPost) {
+        throw new NotFoundException(`Post with ID ${parsedId} not found`);
+      }
+    
+      return foundPost;
     }
 
     create(post: IPost): Observable<IPost[]> {

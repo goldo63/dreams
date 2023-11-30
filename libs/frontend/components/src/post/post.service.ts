@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { IPost, ReadAbility, ApiResponse } from '@dreams/shared/models';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, delay, filter, from, map, of, take, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, delay, filter, from, map, of, take, tap, throwError } from 'rxjs';
 
 export const httpOptions = {
   observe: 'body',
@@ -126,22 +126,29 @@ export class PostService {
             ...httpOptions,
         })
         .pipe(
+            tap(console.log),
             map((response: any) => response.results as IPost[]),
             catchError(this.handleError)
         );
-}
-  handleError(error: any): Observable<IPost[]> {
-    // Your error handling logic here
-    console.error('Error occurred:', error);
-    
-    return of([]);
   }
+  
 
-  getById(id: number): Observable<IPost> {
-      return from(this.posts).pipe(
-          filter((post) => post.id === id),
-          take(1)
-      )
+  getById(id: number | null, options?: any): Observable<IPost> {
+    if (id === null) return this.handleError('ID is null');
+
+    const url = `${this.endpoint}/${id}`;
+    
+    console.log(`read ${url}`);
+    
+    return this.http
+        .get<ApiResponse<IPost>>(url, {
+            ...options,
+            ...httpOptions,
+        })
+        .pipe(
+            map((response: any) => response.results as IPost),
+            catchError(this.handleError)
+        );
   }
 
   create(post: IPost): Observable<IPost[]> {
@@ -170,19 +177,25 @@ export class PostService {
   }
 
   delete(id: number): Observable<IPost[]> {
-      return of(id).pipe(
-        map((deleteId: number) => {
-          const index = this.posts.findIndex(post => post.id === deleteId);
-    
-          if (index !== -1) {
-            this.posts.splice(index, 1);
-          }
-          else {
-              console.log(`post with id ${deleteId} not found.`);
-          }
-    
-          return this.posts;
-        }),
-      );
-    }
+    return of(id).pipe(
+      map((deleteId: number) => {
+        const index = this.posts.findIndex(post => post.id === deleteId);
+  
+        if (index !== -1) {
+          this.posts.splice(index, 1);
+        }
+        else {
+            console.log(`post with id ${deleteId} not found.`);
+        }
+  
+        return this.posts;
+      }),
+    );
+  }
+
+  private handleError(error: any): Observable<never> {
+    //console.error('Error occurred:', error);
+
+    return throwError(() => new Error(error.message));
+  }
 }
