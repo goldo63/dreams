@@ -108,8 +108,8 @@ export class PostService {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     constructor() {}
 
-    getAllpublic(): Observable<IPost[]> {
-        return of(this.posts.filter(post => post.readAbility === ReadAbility.public));
+    async getAllpublic(): Promise<IPost[]> {
+        return this.posts.filter(post => post.readAbility === ReadAbility.public);
     }
 
     getById(id: number): Observable<IPost> {

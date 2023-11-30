@@ -7,4 +7,4 @@ import { PostService } from './post/post.service';
     providers: [PostService],
     exports: [PostService]
 })
-export class PostModule {}
+export class FeatureModule {}
