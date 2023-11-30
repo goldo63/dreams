@@ -3,6 +3,7 @@ import { IAccount, IPost } from '@dreams/shared/models';
 import { PostService } from './post.service';
 import { UserService } from '../user/user.service';
 import { AccountValidator } from '@dreams/shared/services';
+import { Observable, of, startWith, tap } from 'rxjs';
 
 @Component({
   selector: 'dreams-post',
@@ -10,7 +11,7 @@ import { AccountValidator } from '@dreams/shared/services';
   styleUrls: ['./post.component.css'],
 })
 export class PostComponent {
-  posts$: IPost[] = [];
+  posts$!: Observable<IPost[] | null>;
   users$: IAccount[] = [];
 
   constructor(
@@ -19,9 +20,9 @@ export class PostComponent {
   ) {}
 
   ngOnInit(): void {
-    this.postService.getAllpublic().subscribe(posts => {
-      this.posts$ = posts;
-    });
+    
+    this.posts$ = this.postService.getAllpublic()
+    
     this.userService.getAll().subscribe(user => {
       this.users$ = user;
     })
@@ -37,8 +38,6 @@ export class PostComponent {
   }
 
   onDeletePost(postId: number): void {
-    this.postService.delete(postId).subscribe(posts => {
-      this.posts$ = posts;
-    });
+    this.posts$ = this.postService.delete(postId);
   }
 }
