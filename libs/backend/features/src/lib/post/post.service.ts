@@ -1,6 +1,9 @@
 import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { IPost, ReadAbility } from '@dreams/shared/models';
 import { BehaviorSubject, Observable, catchError, delay, filter, from, map, of, take } from 'rxjs';
+import { Post as PostModel, PostDocument } from './post.schema';
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
 
 @Injectable()
 export class PostService {
@@ -106,11 +109,21 @@ export class PostService {
       ];
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    constructor() {}
+    constructor(
+      @InjectModel(PostModel.name) private postModel: Model<PostDocument>,
+    ) {}
 
     async getAllpublic(): Promise<IPost[]> {
-        return this.posts.filter(post => post.readAbility === ReadAbility.public);
+      this.logger.log(`Finding all items`);
+      const items = await this.postModel
+          .find()
+          .exec();
+      return items;
     }
+
+    // async getAllpublic(): Promise<IPost[]> {
+    //     return this.posts.filter(post => post.readAbility === ReadAbility.public);
+    // }
 
     async getById(id: number): Promise<IPost> {
       const parsedId = parseInt(id.toString(), 10); // Ensure the ID is a number

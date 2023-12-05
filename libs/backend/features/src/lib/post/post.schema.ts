@@ -1,11 +1,18 @@
-import { ReadAbility } from '@dreams/shared/models';
+import { IPost, ReadAbility } from '@dreams/shared/models';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { IsMongoId } from 'class-validator';
+import { Id } from 'libs/shared/models/src/interfaces/id.interface';
 import { Document, SchemaTypes } from 'mongoose';
 
+export type PostDocument = Post & Document;
+
 @Schema()
-export class Post extends Document {
+export class Post implements IPost {
+    @IsMongoId()
+    id!: number;
+
     @Prop({ type: SchemaTypes.ObjectId, required: true })
-    posterId!: string;
+    posterId!: Id;
 
     @Prop({ required: true })
     postDate!: Date;
