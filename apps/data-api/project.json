@@ -19,8 +19,22 @@
         "webpackConfig": "apps/data-api/webpack.config.js"
       },
       "configurations": {
-        "development": {},
-        "production": {}
+        "development": {
+          "fileReplacements": [
+            {
+                "replace": "libs/shared/services/src/env/environment.ts",
+                "with": "libs/shared/services/src/env/environment.development.ts"
+            }
+        ]
+        },
+        "production": {
+          "fileReplacements": [
+            {
+                "replace": "libs/shared/services/src/env/environment.ts",
+                "with": "libs/shared/services/src/env/environment.production.ts"
+            }
+        ]
+        }
       }
     },
     "serve": {
