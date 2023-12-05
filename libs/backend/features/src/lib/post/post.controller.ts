@@ -33,7 +33,7 @@ export class PostController {
   async deletePostById(@Param('id') id: number, @Res() res: Response): Promise<void> {
     const result = await this.postService.deleteById(id);
 
-    if (result.deletedCount === 0) throw new NotFoundException(`Post with ID ${id} not found`);
-    (res as any).status(200).json({ message: 'Post deleted successfully' });
+    if (result.deletedCount === 0) throw new NotFoundException(`Post with id ${id} not found`);
+    (res as any).status(200).json({ message: 'Post by id of ${id} deleted successfully' });
   }
 }

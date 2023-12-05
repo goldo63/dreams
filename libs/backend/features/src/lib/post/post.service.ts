@@ -160,7 +160,7 @@ export class PostService {
   async deleteById(id: number): Promise<{ deletedCount: number }> {
     this.logger.log(`Deleting post by ID: ${id}`);
     const result = await this.postModel
-      .deleteOne({ id: id })
+      .deleteOne({ id: +id })
       .exec();
 
     return result;
