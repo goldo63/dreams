@@ -1,13 +1,18 @@
 import { Controller, Get } from '@nestjs/common';
 
-import { AppService } from './app.service';
-
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
 
   @Get()
   getData() {
-    return this.appService.getData();
+    return {
+      message: 'Hello API',
+      endpoints: [
+        { post: ['/', '/create', '/:tag', '/:id', '/:id/update', '/:id/delete'] },
+        { user: ['/', '/create', '/:id', '/:id/update', '/:id/delete'] },
+        { reaction: ['/', '/create', '/:id', '/:id/update', '/:id/delete'] }
+
+      ]
+    };
   }
 }

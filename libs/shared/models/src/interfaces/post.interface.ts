@@ -5,8 +5,8 @@ export interface IPost {
     posterId: Id;
     postDate: Date;
     title: string;
-    imgUrl: string;
-    videoUrl: string;
+    imgUrl?: string;
+    videoUrl?: string;
     content: string; //HTML string using quill
     readAbility: ReadAbility;
 }
