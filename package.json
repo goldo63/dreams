@@ -32,6 +32,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "uuid": "^9.0.1",
     "zone.js": "~0.13.0"
   },
   "devDependencies": {
@@ -64,6 +65,7 @@
     "@types/jest": "^29.4.0",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "~18.7.1",
+    "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^5.60.1",
     "@typescript-eslint/parser": "^5.60.1",
     "cypress": "^13.0.0",

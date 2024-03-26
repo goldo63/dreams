@@ -7,7 +7,8 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { Identity, IdentityDocument } from './identity.schema';
-import { User, UserDocument } from '../user/user.schema';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { User, UserDocument } from '../../../features/src/lib/user/user.schema';
 import { environment } from '@dreams/shared/services'
 
 @Injectable()
@@ -47,11 +48,20 @@ export class AuthService {
 
         const user = await this.userModel.findOne({name: username});
 
+        if (!user) {
+            throw new Error("User not found");
+        }
+
         return new Promise((resolve, reject) => {
-            sign({username, id: user.id}, process.env.JWT_SECRET, (err: Error, token: string) => {
+            sign(
+              { username, id: user.id! },
+              environment.JWT_SECRET,
+              (err: any, token: any) => {
                 if (err) reject(err);
                 else resolve(token);
-            });
-        })
+              }
+            );
+          });
+
     }
 }

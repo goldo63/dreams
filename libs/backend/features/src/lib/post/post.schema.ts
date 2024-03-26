@@ -1,7 +1,6 @@
-import { IPost, ReadAbility } from '@dreams/shared/models';
+import { Id, IPost, ReadAbility } from '@dreams/shared/models';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsMongoId } from 'class-validator';
-import { Id } from 'libs/shared/models/src/interfaces/id.interface';
 import { Document, SchemaTypes } from 'mongoose';
 
 export type PostDocument = Post & Document;

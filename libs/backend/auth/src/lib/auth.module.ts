@@ -4,7 +4,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthController } from './auth.controller';
 
 import { Identity, IdentitySchema } from './identity.schema';
-import { User, UserSchema } from '../user/user.schema';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { User, UserSchema } from '../../../features/src/lib/user/user.schema';
 import { AuthService } from './auth.service';
 
 @Module({
