@@ -3,7 +3,6 @@
 <!-- detail-user.component.html -->
 <div *ngIf="(user$ | async) as user; else loadingTemplate">
     <ng-container *ngIf="accountValidator.isUser(user.accountDetails); else noAccountDetailsTemplate">
-      <h2>{{ user.accountDetails.username }}</h2>
       <p>Email: {{ user.accountDetails.email }}</p>
       <p>First Name: {{ user.accountDetails.firstName }}</p>
       <p>Last Name: {{ user.accountDetails.lastName }}</p>

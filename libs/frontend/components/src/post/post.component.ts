@@ -32,7 +32,7 @@ export class PostComponent {
     const user = this.users$.find(u => u.id === posterId);
     if(user !== undefined && 
       AccountValidator.isUser(user.accountDetails)){
-      return user.accountDetails.username
+      return user.username
     }
     return 'Unknown Account'
   }
