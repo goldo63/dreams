@@ -6,7 +6,7 @@
 <div *ngIf="users$.length; else loadingTemplate">
     <div class="user" *ngFor="let user of users$; let i = index">
         <ng-container *ngIf="accountValidator.isUser(user.accountDetails); else noAccountDetailsTemplate">
-            <h2>{{ user.accountDetails.username }}</h2>
+            <h2>{{ user.username }}</h2>
             <p>Email: {{ user.accountDetails.email }}</p>
             <p>First Name: {{ user.accountDetails.firstName }}</p>
             <p>Last Name: {{ user.accountDetails.lastName }}</p>

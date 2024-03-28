@@ -8,4 +8,6 @@ export interface IEnvironment {
 
     // Hier kun je meer environment
     // variabelen zetten als dat nodig is
+    JWT_SECRET: string;
+    SALT_ROUNDS: string;
 }

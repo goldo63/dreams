@@ -13,12 +13,12 @@ import { AccountValidator } from '@dreams/shared/services';
 export class EditUserComponent implements OnInit{
   user: IAccount = {
     id: 0,
+    username: '',
     phoneNumber: '',
     dateOfRegistration: new Date(),
     password: '',
     accountDetails: {
       email: '',
-      username: '',
       firstName: '',
       lastName: '',
     }
