@@ -1,5 +1,5 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { IPost, ReadAbility } from '@dreams/shared/models';
+import { IPost, IReaction, ITags, ReadAbility } from '@dreams/shared/models';
 import {
   BehaviorSubject,
   Observable,
@@ -14,6 +14,7 @@ import {
 import { Post as PostModel, PostDocument } from './post.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Reaction } from '../postDetails/reaction.schema';
 
 @Injectable()
 export class PostService {
@@ -141,6 +142,14 @@ export class PostService {
     return item;
   }
 
+  async getByTag(tagname: string): Promise<IPost[]> {
+    this.logger.log(`Finding post with tags ${tagname}`);
+    const items = await this.postModel
+      .find({ tags: { $elemMatch: { name: tagname } } })
+      .exec();
+    return items;
+  }
+
   async create(req: any): Promise<IPost | null> {
     const post = req.body;
     const user_id = req.user.user_id;
@@ -150,6 +159,28 @@ export class PostService {
       return this.postModel.create(post);
     }
     return null;
+  }
+
+  async addReaction(meetupId: string, reaction: IReaction): Promise<IPost | null> {
+    const meetup = await this.postModel.findOne({ id: meetupId }).exec();
+    if(meetup == null) return null;
+
+    this.logger.log(`Adding reaction ${reaction.Context}`);
+
+    if(meetup.reactions == null) meetup.reactions = [];
+    meetup.reactions.push(reaction);
+
+    return meetup.save();
+  }
+
+  async setTags(meetupId: string, tags: ITags[]): Promise<IPost | null> {
+    const meetup = await this.postModel.findOne({ id: meetupId }).exec();
+    if(meetup == null) return null;
+
+    this.logger.log(`Setting tags of values ${tags.forEach(tag => tag.name)}`);
+    meetup.tags = tags;
+
+    return meetup.save();
   }
 
   async update(_id: string, post: IPost): Promise<IPost | null> {
