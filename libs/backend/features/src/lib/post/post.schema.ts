@@ -1,4 +1,4 @@
-import { Id, IPost, ReadAbility } from '@dreams/shared/models';
+import { Id, IPost, ITags, ReadAbility } from '@dreams/shared/models';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsMongoId } from 'class-validator';
 import { Document, SchemaTypes } from 'mongoose';
@@ -30,6 +30,12 @@ export class Post implements IPost {
 
     @Prop({ type: Number, enum: ReadAbility, default: ReadAbility.private })
     readAbility!: ReadAbility;
+
+    @Prop({ required: false })
+    tags!: ITags;
+
+    @Prop({type: ReactionSchema, required: false})
+    review: Reaction;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);
