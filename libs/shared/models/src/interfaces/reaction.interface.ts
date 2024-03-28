@@ -2,7 +2,7 @@ import { Id } from "./id.interface";
 
 export interface IReaction {
     id: Id;
-    positiveVote: boolean;
+    isPositiveVote: boolean;
     Context: string;
     ReactionDate: Date;
 }

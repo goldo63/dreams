@@ -4,3 +4,4 @@ export * from './interfaces/api-response.interface';
 export * from './interfaces/id.interface';
 export * from './interfaces/auth.interface';
 export * from './interfaces/tags.interface';
+export * from './interfaces/reaction.interface';
