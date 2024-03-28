@@ -175,7 +175,7 @@ export class PostService {
     return result;
   }
 
-  async setTags(meetupId: string, tags: ITags[]): Promise<IPost | null> {
+  async setTags(meetupId: number, tags: ITags[]): Promise<IPost | null> {
     const meetup = await this.postModel.findOne({ id: meetupId }).exec();
     if(meetup == null) return null;
 
@@ -186,7 +186,7 @@ export class PostService {
   }
 
   //==========REACTIONS===========
-  async addReaction(meetupId: string, reaction: IReaction): Promise<IPost | null> {
+  async addReaction(meetupId: number, reaction: IReaction): Promise<IPost | null> {
     const meetup = await this.postModel.findOne({ id: meetupId }).exec();
     if(meetup == null) return null;
 
@@ -198,7 +198,7 @@ export class PostService {
     return meetup.save();
   }
 
-  async addSubReaction(meetupId: string, reactionId: string, reactionToAdd: IReaction): Promise<IPost | null> {
+  async addSubReaction(meetupId: number, reactionId: number, reactionToAdd: IReaction): Promise<IPost | null> {
     const meetup = await this.postModel.findOne({ id: meetupId }).exec();
     if (!meetup) {
       this.logger.error(`Meetup with id ${meetupId} not found.`);
@@ -227,9 +227,9 @@ export class PostService {
     return meetup;
   }
   
-  private findReactionById(reactions: IReaction[], reactionId: string): IReaction | null {
+  private findReactionById(reactions: IReaction[], reactionId: number): IReaction | null {
     for (const reaction of reactions) {
-      if (reaction.id === parseInt(reactionId)) {
+      if (reaction.id === reactionId) {
         return reaction;
       }
       if (reaction.reactions && reaction.reactions.length > 0) {
