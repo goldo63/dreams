@@ -15,9 +15,6 @@ export class Tag implements ITags {
 
     @Prop({ required: true })
     color!: string;
-
-    @Prop({ type: SchemaTypes.ObjectId, required: true })
-    posterId!: Id;
 }
 
 export const TagSchema = SchemaFactory.createForClass(Tag);

@@ -20,6 +20,9 @@ export class Reaction implements IReaction {
     @Prop({ required: true, default: Date.now })
     ReactionDate!: Date;
 
+    @Prop({ type: SchemaTypes.ObjectId, required: true })
+    posterId!: Id;
+
     @Prop({ required: false, default: [] })
     reactions: IReaction[] | undefined;
 }
