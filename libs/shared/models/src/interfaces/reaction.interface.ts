@@ -5,4 +5,5 @@ export interface IReaction {
     isPositiveVote: boolean;
     Context: string;
     ReactionDate: Date;
+    reactions: IReaction[] | undefined;
 }

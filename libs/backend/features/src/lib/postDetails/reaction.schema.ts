@@ -7,6 +7,7 @@ export type ReactionDocument = Reaction & Document;
 
 @Schema()
 export class Reaction implements IReaction {
+    
     @IsMongoId()
     id!: number;
 
@@ -19,7 +20,9 @@ export class Reaction implements IReaction {
     @Prop({ required: true, default: Date.now })
     ReactionDate!: Date;
 
-    
+    @Prop({ required: false, default: [] })
+    reactions: IReaction[] | undefined;
 }
 
 export const ReactionSchema = SchemaFactory.createForClass(Reaction);
+

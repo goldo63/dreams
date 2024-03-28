@@ -161,28 +161,6 @@ export class PostService {
     return null;
   }
 
-  async addReaction(meetupId: string, reaction: IReaction): Promise<IPost | null> {
-    const meetup = await this.postModel.findOne({ id: meetupId }).exec();
-    if(meetup == null) return null;
-
-    this.logger.log(`Adding reaction ${reaction.Context}`);
-
-    if(meetup.reactions == null) meetup.reactions = [];
-    meetup.reactions.push(reaction);
-
-    return meetup.save();
-  }
-
-  async setTags(meetupId: string, tags: ITags[]): Promise<IPost | null> {
-    const meetup = await this.postModel.findOne({ id: meetupId }).exec();
-    if(meetup == null) return null;
-
-    this.logger.log(`Setting tags of values ${tags.forEach(tag => tag.name)}`);
-    meetup.tags = tags;
-
-    return meetup.save();
-  }
-
   async update(_id: string, post: IPost): Promise<IPost | null> {
     this.logger.log(`Update post ${post.title}`);
     return this.postModel.findByIdAndUpdate({ _id }, post);
@@ -195,5 +173,77 @@ export class PostService {
       .exec();
 
     return result;
+  }
+
+  async setTags(meetupId: string, tags: ITags[]): Promise<IPost | null> {
+    const meetup = await this.postModel.findOne({ id: meetupId }).exec();
+    if(meetup == null) return null;
+
+    this.logger.log(`Setting tags of values ${tags.forEach(tag => tag.name)}`);
+    meetup.tags = tags;
+
+    return meetup.save();
+  }
+
+  //==========REACTIONS===========
+  async addReaction(meetupId: string, reaction: IReaction): Promise<IPost | null> {
+    const meetup = await this.postModel.findOne({ id: meetupId }).exec();
+    if(meetup == null) return null;
+
+    this.logger.log(`Adding reaction ${reaction.Context}`);
+
+    if(meetup.reactions == null) meetup.reactions = [];
+    meetup.reactions.push(reaction);
+
+    return meetup.save();
+  }
+
+  async addSubReaction(meetupId: string, reactionId: string, reactionToAdd: IReaction): Promise<IPost | null> {
+    const meetup = await this.postModel.findOne({ id: meetupId }).exec();
+    if (!meetup) {
+      this.logger.error(`Meetup with id ${meetupId} not found.`);
+      return null;
+    }
+  
+    this.logger.log(`Adding reaction ${reactionToAdd.Context} to reaction ${reactionId}`);
+  
+    if (!meetup.reactions || meetup.reactions.length === 0) {
+      this.logger.error(`Meetup with id ${meetupId} has no reactions.`);
+      return null;
+    }
+  
+    const foundReaction = this.findReactionById(meetup.reactions, reactionId);
+    if (!foundReaction) {
+      this.logger.error(`Reaction with id ${reactionId} not found in meetup ${meetupId}.`);
+      return null;
+    }
+  
+    this.addReactionToFoundReaction(foundReaction, reactionToAdd);
+    
+    // Update the meetup's reactions with the modified reactions
+    meetup.markModified('reactions');
+    
+    await meetup.save();
+    return meetup;
+  }
+  
+  private findReactionById(reactions: IReaction[], reactionId: string): IReaction | null {
+    for (const reaction of reactions) {
+      if (reaction.id === parseInt(reactionId)) {
+        return reaction;
+      }
+      if (reaction.reactions && reaction.reactions.length > 0) {
+        const foundReaction = this.findReactionById(reaction.reactions, reactionId);
+        if (foundReaction) {
+          return foundReaction;
+        }
+      }
+    }
+    return null;
+  }
+  
+  private addReactionToFoundReaction(reaction: IReaction, reactionToAdd: IReaction): void {
+    if (reaction.reactions == null) reaction.reactions = [];
+    reaction.reactions.push(reactionToAdd);
   }
 }
