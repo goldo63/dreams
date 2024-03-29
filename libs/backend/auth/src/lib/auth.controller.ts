@@ -14,7 +14,7 @@ export class AuthController {
             await this.authService.registerUser(credentials.username, credentials.password, credentials.emailAddress);
     
             return {
-                id: await Number(this.authService.createUser(credentials.username, credentials.emailAddress)),
+                id: await String(this.authService.createUser(credentials.username, credentials.emailAddress)),
             };
         } catch (e) {
             throw new HttpException('Username invalid', HttpStatus.BAD_REQUEST);

@@ -18,6 +18,7 @@
       "@avans-nx-workshop/backend/auth": ["libs/backend/auth/src/index.ts"],
       "@dreams/backend/dto": ["libs/backend/dto/src/index.ts"],
       "@dreams/backend/features": ["libs/backend/features/src/index.ts"],
+      "@dreams/backend/auth": ["libs/backend/auth/src/index.ts"],
       "@dreams/frontend/components": ["libs/frontend/components/src/index.ts"],
       "@dreams/frontend/ui": ["libs/frontend/ui/src/index.ts"],
       "@dreams/shared/auth": ["libs/shared/auth/src/index.ts"],
