@@ -17,11 +17,11 @@ export class User implements IAccount {
     @Prop({required: false, default: "secret"})
     password!: string;
 
-    @Prop({required: true})
+    @Prop({type: MongooseSchema.Types.Mixed, required: true})
     accountDetails!: IUser | ICompany;
 
     @Prop({default: uuid, index: true})
-    id!: number;
+    id!: string;
 
     @Prop({
         required: true,

@@ -17,7 +17,7 @@ export interface IUser {
     firstName: string;
     lastName: string;
 
-    friends: IUser[];
+    friends: IAccount[];
 }
 
 export interface ICompany {

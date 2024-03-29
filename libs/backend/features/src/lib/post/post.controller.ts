@@ -24,23 +24,32 @@ export class PostController {
   }
 
   @Get(':id')
-  async getById(@Param('id') id: number): Promise<IPost | null> {
+  async getById(@Param('id') id: string): Promise<IPost | null> {
     const result = this.postService.getById(id);
 
     if (!(await result)) throw new NotFoundException(`Post with id ${id} not found`);
     return result;
   }
 
+  @Post(':id')
+  async createPost(@Param('id') id: string, @Res() res: Response, @Body() post: IPost): Promise<void> {
+    const result = await this.postService.create(id, post);
+    if(result == null) throw new NotFoundException(`No post could be added`);
+    (res as any).status(200).json({ message: `New post added by ${result.id}` });
+  }
+
   @Delete(':id')
-  async deletePostById(@Param('id') id: number, @Res() res: Response): Promise<void> {
+  async deletePostById(@Param('id') id: string, @Res() res: Response): Promise<void> {
     const result = await this.postService.deleteById(id);
 
     if (result.deletedCount === 0) throw new NotFoundException(`Post with id ${id} not found`);
     (res as any).status(200).json({ message: 'Post by id of ${id} deleted successfully' });
   }
   
+
+
   @Post(':id/tags')
-  async addTags(@Param('id') id: number, @Res() res: Response, @Body() tags: ITags[]): Promise<void> {
+  async addTags(@Param('id') id: string, @Res() res: Response, @Body() tags: ITags[]): Promise<void> {
     const result = this.postService.setTags(id, tags)
 
     if(result == null) throw new NotFoundException(`Post by id ${id} not found`);
@@ -48,16 +57,16 @@ export class PostController {
   }
 
   @Post(':id/reactions')
-  async addReaction(@Param('id') id: number, @Res() res: Response, @Body() reaction: IReaction): Promise<void> {
-    const result = this.postService.addReaction(id, reaction);
+  async addReaction(@Param('id') id: string, @Res() res: Response, @Body() reaction: IReaction): Promise<void> {
+    const result = await this.postService.addReaction(id, reaction);
 
     if(result == null) throw new NotFoundException(`Post by id ${id} not found`);
-    (res as any).status(200).json({ message: 'Reaction added successfully' });
+    (res as any).status(200).json({ message: JSON.stringify(result) });
   }
 
-  @Post(':id/subreactions')
-  async addSubReaction(@Param('id') id: number, @Param('reactionid') reactionId: number, @Res() res: Response, @Body() reaction: IReaction): Promise<void> {
-    const result = this.postService.addSubReaction(id, reactionId, reaction);
+  @Post(':id/subreactions/:reactionid')
+  async addSubReaction(@Param('id') id: string, @Param('reactionid') reactionId: string, @Res() res: Response, @Body() reaction: IReaction): Promise<void> {
+    const result = await this.postService.addSubReaction(id, reactionId, reaction);
 
     if(result == null) throw new NotFoundException(`Post by id ${id} or reaction by id ${reactionId} not found`);
     (res as any).status(200).json({ message: 'Subreaction added successfully' });

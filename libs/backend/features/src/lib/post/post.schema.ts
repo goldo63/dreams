@@ -1,15 +1,16 @@
 import { Id, IPost, IReaction, ITags, ReadAbility } from '@dreams/shared/models';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsMongoId } from 'class-validator';
-import { Document, SchemaTypes } from 'mongoose';
+import { Document, SchemaTypes, Types } from 'mongoose';
 import { ReactionSchema } from '../postDetails/reaction.schema';
+import { v4 as uuid } from 'uuid';
 
 export type PostDocument = Post & Document;
 
 @Schema()
 export class Post implements IPost {
-    @IsMongoId()
-    id!: number;
+    @Prop({default: uuid, index: true})
+    id!: string;
 
     @Prop({ type: SchemaTypes.ObjectId, required: true })
     posterId!: Id;
@@ -35,7 +36,7 @@ export class Post implements IPost {
     @Prop({ required: false })
     tags?: ITags[];
 
-    @Prop({type: ReactionSchema, required: false})
+    @Prop({ type: [ReactionSchema], default: [], required: false })
     reactions?: IReaction[];
 }
 
