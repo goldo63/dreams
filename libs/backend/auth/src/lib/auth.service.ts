@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
 import { JwtPayload, verify, sign } from 'jsonwebtoken';
 import { hash, compare } from 'bcrypt';
@@ -10,16 +10,19 @@ import { Identity, IdentityDocument } from './identity.schema';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { User, UserDocument } from '../../../features/src/lib/user/user.schema';
 import { environment } from '@dreams/shared/services'
+import { IAccount } from '@dreams/shared/models';
 
 @Injectable()
 export class AuthService {
+    private readonly logger = new Logger(AuthService.name);
     constructor(
         @InjectModel(Identity.name) private identityModel: Model<IdentityDocument>,
         @InjectModel(User.name) private userModel: Model<UserDocument>
     ) {}
 
-    async createUser(name: string, emailAddress: string): Promise<string> {
-        const user = new this.userModel({name, emailAddress});
+    async createUser(name: string, account: IAccount): Promise<string> {
+        account.username = name;
+        const user = new this.userModel(account);
         await user.save();
         return user.id;
       }
@@ -33,10 +36,11 @@ export class AuthService {
         })
     }
 
-    async registerUser(username: string, password: string, emailAddress: string) {
-        const generatedHash = await hash(password, environment.SALT_ROUNDS);
+    async registerUser(username: string, password: string) {
+        this.logger.log(environment.SALT_ROUNDS);
+        const generatedHash = await hash(password, parseInt(environment.SALT_ROUNDS));
 
-        const identity = new this.identityModel({username, hash: generatedHash, emailAddress});
+        const identity = new this.identityModel({username, hash: generatedHash});
 
         await identity.save();
     }

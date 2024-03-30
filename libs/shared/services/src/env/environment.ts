@@ -7,6 +7,6 @@ export const environment: IEnvironment = {
     dataApiUrl: 'dummy',
 
     MONGO_DB_CONNECTION_STRING: 'dummy',
-    JWT_SECRET: 'dummy',
-    SALT_ROUNDS: 'dummy'
+    JWT_SECRET: '10',
+    SALT_ROUNDS: '10'
 };

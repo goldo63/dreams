@@ -8,7 +8,6 @@ export interface Iidentity {
 export interface IAccount extends Iidentity {
     phoneNumber: string;
     dateOfRegistration: Date;
-    password: string;
     accountDetails: IUser | ICompany;
 }
 

@@ -15,13 +15,6 @@ export class Identity {
 
     @Prop({ required: true })
   hash!: string;
-
-    @Prop({
-    required: true,
-    unique: true,
-    })
-  emailAddress!: string;
-      
 }
 
 export const IdentitySchema = SchemaFactory.createForClass(Identity);

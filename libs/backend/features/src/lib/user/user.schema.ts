@@ -14,9 +14,6 @@ export class User implements IAccount {
     @Prop({required: true, default: Date.now})
     dateOfRegistration!: Date;
 
-    @Prop({required: false, default: "secret"})
-    password!: string;
-
     @Prop({type: MongooseSchema.Types.Mixed, required: true})
     accountDetails!: IUser | ICompany;
 
