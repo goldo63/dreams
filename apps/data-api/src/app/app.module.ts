@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { environment } from '@dreams/shared/services';
 import { TokenMiddleware, AuthModule } from '@dreams/backend/auth';
 import { RouterModule } from '@nestjs/core';
+import { Neo4jModule } from 'nest-neo4j';
 
 @Module({
   imports: [
@@ -42,7 +43,15 @@ import { RouterModule } from '@nestjs/core';
           connection._events.connected();
           return connection;
       }
-  }),
+    }),
+    Neo4jModule.forRoot({
+      scheme: 'bolt',
+      host: 'localhost',
+      port: 7687,
+      username: 'neo4j',
+      password: 'GoldoForDreams',
+      database: 'dreams',
+    }),
   ],
   controllers: [AppController],
   providers: [],
