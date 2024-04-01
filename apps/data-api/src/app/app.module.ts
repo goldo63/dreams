@@ -49,7 +49,7 @@ import { Neo4jModule } from 'nest-neo4j';
       host: 'localhost',
       port: 7687,
       username: 'neo4j',
-      password: 'GoldoForDreams',
+      password: 'Goldo123',
       database: 'dreams',
     }),
   ],

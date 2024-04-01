@@ -29,6 +29,7 @@ export class AuthController {
                 token: await this.authService.generateToken(credentials.username, credentials.password)
             };
         } catch (e) {
+            this.logger.error(e);
             throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
         }
     }

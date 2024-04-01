@@ -22,7 +22,8 @@ export class AuthService {
 
     async createUser(name: string, account: IAccount): Promise<string> {
         account.username = name;
-        const user = new this.userModel(account);
+        
+        const user = new this.userModel(account, hash);
         await user.save();
         return user.id;
       }
@@ -39,6 +40,7 @@ export class AuthService {
     async registerUser(username: string, password: string) {
         this.logger.log(environment.SALT_ROUNDS);
         const generatedHash = await hash(password, parseInt(environment.SALT_ROUNDS));
+        this.logger.log(generatedHash);
 
         const identity = new this.identityModel({username, hash: generatedHash});
 
@@ -46,11 +48,19 @@ export class AuthService {
     }
 
     async generateToken(username: string, password: string): Promise<string> {
-        const identity = await this.identityModel.findOne({username});
+        const identity = await this.identityModel.findOne({ username });
+        
+        if (!identity) {
+            throw new Error("User not found");
+        }
 
-        if (!identity || !(await compare(password, identity.hash))) throw new Error("user not authorized");
+        this.logger.log(identity.hash);
+        const passwordMatches = await compare(password, identity.hash);
+        if (!passwordMatches) {
+            throw new Error("Password incorrect");
+        }
 
-        const user = await this.userModel.findOne({name: username});
+        const user = await this.userModel.findOne({username: username});
 
         if (!user) {
             throw new Error("User not found");
