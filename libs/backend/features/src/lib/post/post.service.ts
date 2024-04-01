@@ -82,13 +82,12 @@ export class PostService {
   
     if(post == null) return null;
     
-
     this.logger.log(`Adding reaction ${reaction.Context}`);
 
     if(post.reactions == null || post.reactions == undefined){ 
       post.reactions = new Array<IReaction>();
     }
-    console.log(post.reactions);
+    reaction.id = uuid();
     post.reactions.push(reaction);
 
     this.createRelation(userId, postId, reaction)
@@ -148,22 +147,43 @@ export class PostService {
     reaction.reactions.push(reactionToAdd);
   }
 
-  private async createRelation(userid: string, postid: string, reaction: IReaction): Promise<void> {
+  async createRelation(userid: string, postid: string, reaction: IReaction): Promise<void> {
     try {
-      // Create relationship between user and reaction
-      await this.neo4jService.write(`
-        MATCH (u:User {id: $userId}), (r:Reaction {id: $reactionId})
-        CREATE (u)-[:REACTED]->(r)
-      `, { userId: userid, reactionId: reaction.id });
+        // Create user node
+        await this.neo4jService.write(
+            `MERGE (u:User {id: $userId})`,
+            { userId: userid }
+        );
 
-      // Create relationship between reaction and post
-      await this.neo4jService.write(`
-        MATCH (r:Reaction {id: $reactionId}), (p:Post {id: $postId})
-        CREATE (r)-[:REACTED_TO]->(p)
-      `, { reactionId: reaction.id, postId: postid });
+        // Create reaction node
+        await this.neo4jService.write(
+            `MERGE (r:Reaction {id: $reactionId})`,
+            { reactionId: reaction.id }
+        );
+
+        // Create post node
+        await this.neo4jService.write(
+            `MERGE (p:Post {id: $postId})`,
+            { postId: postid }
+        );
+
+        // Create relationships
+        await this.neo4jService.write(
+            `MATCH (u:User {id: $userId}), (r:Reaction {id: $reactionId})
+             CREATE (u)-[:REACTED]->(r)`,
+            { userId: userid, reactionId: reaction.id }
+        );
+
+        await this.neo4jService.write(
+            `MATCH (r:Reaction {id: $reactionId}), (p:Post {id: $postId})
+             CREATE (r)-[:REACTED_TO]->(p)`,
+            { reactionId: reaction.id, postId: postid }
+        );
+
+        this.logger.log('Relationships created successfully.');
     } catch (error) {
-      this.logger.error(`Error creating relation: ${error}`);
-      throw error;
+        this.logger.error(`Error creating relation: ${error}`);
+        throw error;
     }
-  }
+}
 }
