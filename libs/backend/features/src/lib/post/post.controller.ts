@@ -56,6 +56,13 @@ export class PostController {
     (res as any).status(200).json({ message: 'Tags set successfully' });
   }
 
+  @Get(':id/reactions')
+  async getReactionsFromUser(@Param('id') id: string): Promise<any[]> {
+    const result = this.postService.getReactionsFromUser(id);
+    console.log(result);
+    return result;
+  }
+
   @Post(':id/reactions')
   async addReaction(@InjectToken() token: Token, @Param('id') id: string, @Res() res: Response, @Body() reaction: IReaction): Promise<void> {
     const result = await this.postService.addReaction(token.id, id, reaction);

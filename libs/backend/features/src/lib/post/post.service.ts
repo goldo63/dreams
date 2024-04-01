@@ -147,6 +147,7 @@ export class PostService {
     reaction.reactions.push(reactionToAdd);
   }
 
+  //==========NEO4J==========
   async createRelation(userid: string, postid: string, reaction: IReaction): Promise<void> {
     try {
         // Create user node
@@ -183,6 +184,20 @@ export class PostService {
         this.logger.log('Relationships created successfully.');
     } catch (error) {
         this.logger.error(`Error creating relation: ${error}`);
+        throw error;
+    }
+  }
+  async getReactionsFromUser(userId: string): Promise<any[]> {
+    try {
+        const result = await this.neo4jService.read(
+            `MATCH (u:User {id: $userId})-[:REACTED]->(r:Reaction)
+             RETURN r`,
+            { userId: userId }
+        );
+
+        return result.records.map(record => record.get('r').properties);
+    } catch (error) {
+        this.logger.error(`Error reading reactions from user: ${error}`);
         throw error;
     }
 }
