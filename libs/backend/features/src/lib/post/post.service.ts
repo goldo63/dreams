@@ -1,10 +1,11 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { IPost, IReaction, ITags, ReadAbility } from '@dreams/shared/models';
+import { IAccount, IPost, IReaction, ITags, IUser, ReadAbility } from '@dreams/shared/models';
 import { Post as PostModel, PostDocument } from './post.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Reaction } from '../postDetails/reaction.schema';
 import { v4 as uuid } from 'uuid';
+import { Neo4jService } from 'nest-neo4j';
 
 @Injectable()
 export class PostService {
@@ -12,7 +13,8 @@ export class PostService {
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor(
-    @InjectModel(PostModel.name) private postModel: Model<PostDocument>
+    @InjectModel(PostModel.name) private postModel: Model<PostDocument>,
+    private readonly neo4jService: Neo4jService
   ) {}
 
   async getAllpublic(): Promise<IPost[]> {
@@ -64,62 +66,63 @@ export class PostService {
     return result;
   }
 
-  async setTags(meetupId: string, tags: ITags[]): Promise<IPost | null> {
-    const meetup = await this.postModel.findOne({ id: +meetupId }).exec();
-    if(meetup == null) return null;
+  async setTags(postId: string, tags: ITags[]): Promise<IPost | null> {
+    const post = await this.postModel.findOne({ id: +postId }).exec();
+    if(post == null) return null;
 
     this.logger.log(`Setting tags of values ${tags.forEach(tag => tag.name)}`);
-    meetup.tags = tags;
+    post.tags = tags;
 
-    return meetup.save();
+    return post.save();
   }
 
   //==========REACTIONS===========
-  async addReaction(meetupId: string, reaction: IReaction): Promise<IPost | null> {
-    const meetup = await this.postModel.findOne({ id: meetupId }).exec();
+  async addReaction(userId: string, postId: string, reaction: IReaction): Promise<IPost | null> {
+    const post = await this.postModel.findOne({ id: postId }).exec();
   
-    if(meetup == null) return null;
+    if(post == null) return null;
     
 
     this.logger.log(`Adding reaction ${reaction.Context}`);
 
-    if(meetup.reactions == null || meetup.reactions == undefined){ 
-      meetup.reactions = new Array<IReaction>();
+    if(post.reactions == null || post.reactions == undefined){ 
+      post.reactions = new Array<IReaction>();
     }
-    console.log(meetup.reactions);
-    meetup.reactions.push(reaction);
+    console.log(post.reactions);
+    post.reactions.push(reaction);
 
-    //meetup.markModified('reactions');
-    return meetup.save();
+    this.createRelation(userId, postId, reaction)
+    return post.save();
   }
 
-  async addSubReaction(meetupId: string, reactionId: string, reactionToAdd: IReaction): Promise<IPost | null> {
-    const meetup = await this.postModel.findOne({ id: meetupId }).exec();
-    if (!meetup) {
-      this.logger.error(`Meetup with id ${meetupId} not found.`);
+  async addSubReaction(userId: string, postId: string, reactionId: string, reactionToAdd: IReaction): Promise<IPost | null> {
+    const post = await this.postModel.findOne({ id: postId }).exec();
+    if (!post) {
+      this.logger.error(`Post with id ${postId} not found.`);
       return null;
     }
   
     this.logger.log(`Adding reaction ${reactionToAdd.Context} to reaction ${reactionId}`);
   
-    if (!meetup.reactions || meetup.reactions.length === 0) {
-      this.logger.error(`Meetup with id ${meetupId} has no reactions.`);
+    if (!post.reactions || post.reactions.length === 0) {
+      this.logger.error(`Post with id ${postId} has no reactions.`);
       return null;
     }
   
-    const foundReaction = this.findReactionById(meetup.reactions, reactionId);
+    const foundReaction = this.findReactionById(post.reactions, reactionId);
     if (!foundReaction) {
-      this.logger.error(`Reaction with id ${reactionId} not found in meetup ${meetupId}.`);
+      this.logger.error(`Reaction with id ${reactionId} not found in post ${postId}.`);
       return null;
     }
   
     this.addReactionToFoundReaction(foundReaction, reactionToAdd);
     
-    // Update the meetup's reactions with the modified reactions
-    meetup.markModified('reactions');
-    
-    await meetup.save();
-    return meetup;
+    // Update the post's reactions with the modified reactions
+    post.markModified('reactions');
+    this.createRelation(userId, postId, reactionToAdd);
+
+    await post.save();
+    return post;
   }
   
   private findReactionById(reactions: IReaction[], reactionId: string): IReaction | null {
@@ -143,5 +146,24 @@ export class PostService {
     reactionToAdd.reactions = [];
     if (reaction.reactions == null) reaction.reactions = [];
     reaction.reactions.push(reactionToAdd);
+  }
+
+  private async createRelation(userid: string, postid: string, reaction: IReaction): Promise<void> {
+    try {
+      // Create relationship between user and reaction
+      await this.neo4jService.write(`
+        MATCH (u:User {id: $userId}), (r:Reaction {id: $reactionId})
+        CREATE (u)-[:REACTED]->(r)
+      `, { userId: userid, reactionId: reaction.id });
+
+      // Create relationship between reaction and post
+      await this.neo4jService.write(`
+        MATCH (r:Reaction {id: $reactionId}), (p:Post {id: $postId})
+        CREATE (r)-[:REACTED_TO]->(p)
+      `, { reactionId: reaction.id, postId: postid });
+    } catch (error) {
+      this.logger.error(`Error creating relation: ${error}`);
+      throw error;
+    }
   }
 }

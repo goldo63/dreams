@@ -11,6 +11,8 @@ import {
 } from '@nestjs/common';
 import { PostService } from './post.service';
 import { IPost, IReaction, ITags } from '@dreams/shared/models';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { InjectToken, Token } from '../../../../auth/src/lib/token/token.decorator';
 
 @Controller('post')
 export class PostController {
@@ -55,16 +57,16 @@ export class PostController {
   }
 
   @Post(':id/reactions')
-  async addReaction(@Param('id') id: string, @Res() res: Response, @Body() reaction: IReaction): Promise<void> {
-    const result = await this.postService.addReaction(id, reaction);
+  async addReaction(@InjectToken() token: Token, @Param('id') id: string, @Res() res: Response, @Body() reaction: IReaction): Promise<void> {
+    const result = await this.postService.addReaction(token.id, id, reaction);
 
     if(result == null) throw new NotFoundException(`Post by id ${id} not found`);
     (res as any).status(200).json({ message: JSON.stringify(result) });
   }
 
   @Post(':id/subreactions/:reactionid')
-  async addSubReaction(@Param('id') id: string, @Param('reactionid') reactionId: string, @Res() res: Response, @Body() reaction: IReaction): Promise<void> {
-    const result = await this.postService.addSubReaction(id, reactionId, reaction);
+  async addSubReaction(@InjectToken() token: Token, @Param('id') id: string, @Param('reactionid') reactionId: string, @Res() res: Response, @Body() reaction: IReaction): Promise<void> {
+    const result = await this.postService.addSubReaction(token.id, id, reactionId, reaction);
 
     if(result == null) throw new NotFoundException(`Post by id ${id} or reaction by id ${reactionId} not found`);
     (res as any).status(200).json({ message: 'Subreaction added successfully' });
