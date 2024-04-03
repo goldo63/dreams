@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { UserRegistration } from '@dreams/shared/models';
+import { IUser, UserRegistration } from '@dreams/shared/models';
 
 @Component({
   selector: 'dreams-app-register',
@@ -25,9 +25,17 @@ export class RegisterComponent {
     }
   };
 
+  extraData: IUser = {
+    email: '',
+    firstName: '',
+    lastName: '',
+    friends: []
+  };
+
   constructor(private authService: AuthService) { }
 
   onSubmit(): void {
+    this.formData.account.accountDetails = this.extraData;
     this.authService.register(this.formData).subscribe((result) => {
       // Handle registration success or error
       console.log(result);
