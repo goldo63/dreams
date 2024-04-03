@@ -4,8 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { QuillModule } from 'ngx-quill';
 
-import { UserComponent } from './user/user.component';
-import { EditUserComponent } from './user/create/editUser.component';
+import { EditUserComponent } from './user/edit/editUser.component';
 import { DetailUserComponent } from './user/detail/detailUser.component';
 
 import { PostComponent } from './post/post.component';
@@ -13,8 +12,6 @@ import { EditPostComponent } from './post/create/editPost.component';
 import { DetailPostComponent } from './post/detail/detailPost.component';
 
 const componentRoute: Routes = [
-  { path: 'user', component: UserComponent },
-  { path: 'user/create', component: EditUserComponent },
   { path: 'user/:id', component: DetailUserComponent },
   { path: 'user/:id/update', component: EditUserComponent },
 
@@ -26,7 +23,6 @@ const componentRoute: Routes = [
 
 @NgModule({
   declarations: [
-    UserComponent,
     EditUserComponent,
     DetailUserComponent,
     PostComponent,

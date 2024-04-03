@@ -8,6 +8,7 @@ import { IUser, UserRegistration } from '@dreams/shared/models';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
+  
   formData: UserRegistration = {
     username: '',
     password: '',
@@ -24,7 +25,6 @@ export class RegisterComponent {
       }
     }
   };
-
   extraData: IUser = {
     email: '',
     firstName: '',
