@@ -28,7 +28,7 @@ export class PostComponent {
     })
   }
 
-  getUserName(posterId: number): string {
+  getUserName(posterId: string): string {
     const user = this.users$.find(u => u.id === posterId);
     if(user !== undefined && 
       AccountValidator.isUser(user.accountDetails)){
@@ -37,7 +37,7 @@ export class PostComponent {
     return 'Unknown Account'
   }
 
-  onDeletePost(postId: number): void {
-    this.posts$ = this.postService.delete(postId);
-  }
+  // onDeletePost(postId: string): void {
+  //   this.posts$ = this.postService.delete(postId);
+  // }
 }

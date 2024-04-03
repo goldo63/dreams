@@ -34,7 +34,7 @@ export class PostService {
   }
   
 
-  getById(id: number | null, options?: any): Observable<IPost> {
+  getById(id: string | null, options?: any): Observable<IPost> {
     if (id === null) return this.handleError('ID is null');
 
     const url = `${this.endpoint}/${id}`;
@@ -71,7 +71,7 @@ export class PostService {
       );
   }
 
-  delete(id: number): Observable<void> {
+  delete(id: string): Observable<void> {
     console.log('deleting post');
     const url = `${this.endpoint}/${id}`;
     return this.http

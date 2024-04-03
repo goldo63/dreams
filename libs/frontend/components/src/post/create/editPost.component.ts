@@ -23,8 +23,8 @@ export class EditPostComponent implements OnInit {
     ],
   };
   post: IPost = {
-    id: 0,
-    posterId: 0, // Assuming posterId is of type number, please adjust accordingly
+    id: '0',
+    posterId: '0', // Assuming posterId is of type number, please adjust accordingly
     postDate: new Date(),
     title: '',
     imgUrl: '',
