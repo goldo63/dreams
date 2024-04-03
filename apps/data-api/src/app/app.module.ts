@@ -1,12 +1,26 @@
-import { Logger, Module } from '@nestjs/common';
-import { FeatureModule } from '@dreams/backend/features'
+import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
+import { FeatureModule } from '@dreams/backend/features';
 import { AppController } from './app.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { environment } from '@dreams/shared/services'
+import { environment } from '@dreams/shared/services';
+import { TokenMiddleware, AuthModule } from '@dreams/backend/auth';
+import { RouterModule } from '@nestjs/core';
+import { Neo4jModule } from 'nest-neo4j';
 
 @Module({
   imports: [
+    AuthModule,
     FeatureModule,
+    RouterModule.register([
+      {
+        path: 'auth',
+        module: AuthModule,
+      },
+      {
+        path: 'data',
+        module: FeatureModule,
+      },
+    ]),
     MongooseModule.forRoot(environment.MONGO_DB_CONNECTION_STRING, {
       connectionFactory: (connection) => {
           connection.on('connected', () => {
@@ -29,9 +43,21 @@ import { environment } from '@dreams/shared/services'
           connection._events.connected();
           return connection;
       }
-  }),
+    }),
+    Neo4jModule.forRoot({
+      scheme: 'bolt',
+      host: 'localhost',
+      port: 7687,
+      username: 'neo4j',
+      password: 'Goldo123',
+      database: 'dreams',
+    }),
   ],
   controllers: [AppController],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(TokenMiddleware).forRoutes('data');
+  }
+}
