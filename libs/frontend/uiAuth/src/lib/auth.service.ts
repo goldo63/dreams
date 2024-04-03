@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '@dreams/shared/services';
-import { UserCredentials, IAccount, Iidentity, AuthIdentifier } from '@dreams/shared/models';
+import { UserCredentials, IAccount, Iidentity, AuthIdentifier, UserRegistration } from '@dreams/shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -42,9 +42,9 @@ export class AuthService {
       );
   }
 
-  register(userData: IAccount): Observable<IAccount | undefined> {
+  register(userData: UserRegistration): Observable<UserRegistration | undefined> {
     return this.http
-      .post<IAccount>(`${this.apiUrl}/user`, userData, this.httpOptions)
+      .post<UserRegistration>(`${this.apiUrl}/register`, userData, this.httpOptions)
       .pipe(catchError(this.handleError));
   }
 
