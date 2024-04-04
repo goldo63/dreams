@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { IPost, ReadAbility, ApiResponse } from '@dreams/shared/models';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, delay, filter, from, map, of, take, tap, throwError } from 'rxjs';
+import { environment } from '@dreams/shared/services';
 
 export const httpOptions = {
   observe: 'body',
@@ -13,7 +14,7 @@ export const httpOptions = {
 })
 export class PostService {
 
-  endpoint = process.env['API_URL'] + '/data/post';
+  endpoint = environment.apiURL + '/data/post';
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor(private readonly http: HttpClient) {}

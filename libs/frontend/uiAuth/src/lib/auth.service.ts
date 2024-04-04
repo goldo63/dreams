@@ -3,13 +3,14 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { UserCredentials, IAccount, Iidentity, AuthIdentifier, UserRegistration } from '@dreams/shared/models';
+import { environment } from '@dreams/shared/services';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private readonly currentUserKey = 'currentUser';
-  private readonly apiUrl = process.env['dataApiUrl'] + '/auth';
+  private readonly apiUrl = environment.apiURL + '/auth';
   private readonly httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',

@@ -10,6 +10,7 @@ import { Identity, IdentityDocument } from './identity.schema';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { User, UserDocument } from '../../../features/src/lib/user/user.schema';
 import { IAccount } from '@dreams/shared/models';
+import { environment } from '@dreams/shared/services';
 
 @Injectable()
 export class AuthService {
@@ -29,7 +30,7 @@ export class AuthService {
 
     async verifyToken(token: string): Promise<string | JwtPayload> {
         return new Promise((resolve, reject) => {
-            verify(token, process.env['JWT_SECRET'] as string, (err, payload) => {
+            verify(token, environment.jwtSecret as string, (err, payload) => {
                 if (err) reject(err);
                 else resolve(payload as JwtPayload);
             })
@@ -37,9 +38,7 @@ export class AuthService {
     }
 
     async registerUser(username: string, password: string) {
-        this.logger.log(process.env['SALT_ROUNDS']);
-        const generatedHash = await hash(password, parseInt(process.env['SALT_ROUNDS'] as string));
-        this.logger.log(generatedHash);
+        const generatedHash = await hash(password, environment.saltRounds);
 
         const identity = new this.identityModel({username, hash: generatedHash});
 
@@ -68,7 +67,7 @@ export class AuthService {
         return new Promise((resolve, reject) => {
             sign(
               { username, id: user.id! },
-              process.env['JWT_SECRET'] as string,
+              environment.jwtSecret,
               (err: any, token: any) => {
                 if (err) reject(err);
                 else resolve(token);

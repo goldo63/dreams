@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { IAccount, IUser, UserRegistration } from '@dreams/shared/models';
-import { AccountValidator } from '@dreams/shared/services';
+import { AccountValidator, environment } from '@dreams/shared/services';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private apiUrl = process.env['dataApiUrl'] + '/data';
+  private apiUrl = environment.apiURL + '/data';
 
   constructor(private http: HttpClient, private accountValidator: AccountValidator) { }
 
