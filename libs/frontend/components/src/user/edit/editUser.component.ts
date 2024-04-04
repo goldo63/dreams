@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../user.service';
 import { UserRegistration } from '@dreams/shared/models';
+import { AccountValidator } from '@dreams/shared/services';
 
 @Component({
   selector: 'dreams-app-edit',
@@ -24,6 +25,8 @@ export class EditUserComponent implements OnInit {
       }
     }
   };
+
+  AccountValidator = AccountValidator; // Expose AccountValidator to the template
 
   constructor(private userService: UserService) { }
 

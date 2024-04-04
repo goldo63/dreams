@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { IAccount } from '@dreams/shared/models';
+import { Observable, of } from 'rxjs'; // Import the `of` function
+import { IAccount, IUser } from '@dreams/shared/models';
 import { UserService } from '../user.service';
+import { AccountValidator } from '@dreams/shared/services';
 
 @Component({
   selector: 'dreams-account-detail',
@@ -9,13 +11,17 @@ import { UserService } from '../user.service';
   styleUrls: ['./detailUser.component.css']
 })
 export class DetailUserComponent implements OnInit {
-  account: IAccount | undefined;
+  account$!: Observable<IAccount | undefined>; // Change the type to Observable<IAccount | undefined>
+  userDetails: IUser | undefined;
 
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
-    this.userService.getCurrentUser().subscribe(account => {
-      this.account = account;
+    this.account$ = this.userService.getCurrentUser();
+    this.account$.subscribe(account => {
+      if (account) {
+        this.userDetails = account.accountDetails as IUser;
+      }
     });
   }
 
