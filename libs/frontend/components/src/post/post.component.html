@@ -10,10 +10,9 @@
                 <div class="flex-wrap">
                     <div class="details">
                         <!-- <p class="username">U/:{{ getUserName( post.posterId ) }}</p> -->
-                        <h2>{{ post.title}}</h2>
+                        <a [routerLink]="[post.id]" type="submit" class=""><h2>{{ post.title}}</h2></a>
                     </div>
                     <div class="controls">
-                        <a [routerLink]="[post.id]" type="submit" class="btn btn-primary">Details</a>
                     </div>
                 </div>
                 <hr>

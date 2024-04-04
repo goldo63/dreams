@@ -17,5 +17,6 @@ export class PostComponent {
 
   ngOnInit(): void {
     this.posts$ = this.postService.getAllpublic()
+    console.log(this.posts$);
   }
 }

@@ -9,9 +9,7 @@
     </div>
 
     <ng-container *ngIf="(user$ | async) as user;  else wrongUserTemplate">
-        <ng-container *ngIf="accountValidator.isUser(user.accountDetails);  else wrongUserTemplate">
-            <p [routerLink]='["../../user", user.id]' class="username">U/{{user.username}}</p>
-        </ng-container>
+        <p [routerLink]='["../../user", user.id]' class="username">U/{{user.username}}</p>
     </ng-container>
     <ng-template #wrongUserTemplate>
         <p class="username">U/unknown</p>

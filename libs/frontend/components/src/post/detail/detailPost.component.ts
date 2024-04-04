@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { IAccount, IPost } from '@dreams/shared/models';
+import { IAccount, IPost, IUser } from '@dreams/shared/models';
 import { Observable, switchMap } from 'rxjs';
 import { UserService } from '../../user/user.service';
 import { PostService } from '../post.service';
-import { AccountValidator } from '@dreams/shared/services';
 
 @Component({
   selector: 'dreams-detail-post',
@@ -14,6 +13,7 @@ import { AccountValidator } from '@dreams/shared/services';
 export class DetailPostComponent {
   post$: Observable<IPost> | null = null;
   user$: Observable<IAccount> | null = null;
+  userDetails: IUser | undefined;
 
   constructor(
     private postService: PostService, 
@@ -31,9 +31,10 @@ export class DetailPostComponent {
     this.user$ = this.post$.pipe(
       switchMap((post: IPost) => this.userService.getById(post.posterId))
     );
-  }
-  
-  get accountValidator(): typeof AccountValidator {
-    return AccountValidator;
+    this.user$.subscribe(account => {
+      if (account) {
+        this.userDetails = account.accountDetails as IUser;
+      }
+    });
   }
 }

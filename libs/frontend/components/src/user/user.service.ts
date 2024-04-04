@@ -10,7 +10,7 @@ import { AccountValidator, environment } from '@dreams/shared/services';
 export class UserService {
   private apiUrl = environment.apiURL + '/data';
 
-  constructor(private http: HttpClient, private accountValidator: AccountValidator) { }
+  constructor(private http: HttpClient) { }
 
   getCurrentUser(): Observable<IAccount> {
     // Implement logic to fetch current user's data from the server
