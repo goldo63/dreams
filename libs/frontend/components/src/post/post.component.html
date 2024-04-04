@@ -9,13 +9,11 @@
             <div class="post" *ngFor="let post of posts; let i = index">
                 <div class="flex-wrap">
                     <div class="details">
-                        <p class="username">U/:{{ getUserName( post.posterId ) }}</p>
+                        <!-- <p class="username">U/:{{ getUserName( post.posterId ) }}</p> -->
                         <h2>{{ post.title}}</h2>
                     </div>
                     <div class="controls">
                         <a [routerLink]="[post.id]" type="submit" class="btn btn-primary">Details</a>
-                        <a [routerLink]="[post.id, 'update']" type="submit" class="btn btn-primary">Update</a>
-                        <a type="button" class="btn btn-primary" (click)="onDeletePost(post.id)">Delete post</a>
                     </div>
                 </div>
                 <hr>

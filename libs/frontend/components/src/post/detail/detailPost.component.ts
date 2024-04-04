@@ -24,7 +24,7 @@ export class DetailPostComponent {
   ngOnInit(): void {
     this.post$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => 
-        this.postService.getById(parseInt(params.get('id') as string)),
+        this.postService.getById(params.get('id') as string),
       )
     )
 

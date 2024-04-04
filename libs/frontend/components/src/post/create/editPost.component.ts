@@ -49,7 +49,7 @@ export class EditPostComponent implements OnInit {
         switchMap((params) => {
           if (params.get('id')) {
             this.updatingPost = true;
-            return this.postService.getById(parseInt(params.get('id') as string));
+            return this.postService.getById(params.get('id'));
           } else {
             this.updatingPost = false;
             return of(this.post);

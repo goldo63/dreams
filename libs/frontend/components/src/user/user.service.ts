@@ -17,6 +17,10 @@ export class UserService {
     return this.http.get<IAccount>(`${this.apiUrl}/user/current`); //TODO: implement correct endpoint
   }
 
+  getById(id: string): Observable<IAccount> {
+    return this.http.get<IAccount>(`${this.apiUrl}/user/${id}`);
+  }
+
   updateUser(user: UserRegistration): Observable<UserRegistration> {
     // Implement logic to update user data on the server
     return this.http.put<UserRegistration>(`${this.apiUrl}/user/${user.account.id}`, user);

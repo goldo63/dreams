@@ -12,7 +12,6 @@ import { Observable, of, startWith, tap } from 'rxjs';
 })
 export class PostComponent {
   posts$!: Observable<IPost[] | null>;
-  users$: IAccount[] = [];
 
   constructor(
     private postService: PostService,
@@ -20,24 +19,6 @@ export class PostComponent {
   ) {}
 
   ngOnInit(): void {
-    
     this.posts$ = this.postService.getAllpublic()
-    
-    this.userService.getAll().subscribe(user => {
-      this.users$ = user;
-    })
   }
-
-  getUserName(posterId: string): string {
-    const user = this.users$.find(u => u.id === posterId);
-    if(user !== undefined && 
-      AccountValidator.isUser(user.accountDetails)){
-      return user.username
-    }
-    return 'Unknown Account'
-  }
-
-  // onDeletePost(postId: string): void {
-  //   this.posts$ = this.postService.delete(postId);
-  // }
 }
