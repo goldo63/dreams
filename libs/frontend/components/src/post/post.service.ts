@@ -13,7 +13,7 @@ export const httpOptions = {
 })
 export class PostService {
 
-  endpoint = 'http://localhost:3000/api/post';
+  endpoint = process.env['API_URL'] + '/data/post';
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor(private readonly http: HttpClient) {}

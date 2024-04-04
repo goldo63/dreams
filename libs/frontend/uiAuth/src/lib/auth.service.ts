@@ -1,8 +1,10 @@
+import { config } from 'dotenv';
+config();
+
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '@dreams/shared/services';
 import { UserCredentials, IAccount, Iidentity, AuthIdentifier, UserRegistration } from '@dreams/shared/models';
 
 @Injectable({
@@ -10,7 +12,7 @@ import { UserCredentials, IAccount, Iidentity, AuthIdentifier, UserRegistration 
 })
 export class AuthService {
   private readonly currentUserKey = 'currentUser';
-  private readonly apiUrl = environment.dataApiUrl + '/auth';
+  private readonly apiUrl = process.env['dataApiUrl'] + '/auth';
   private readonly httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',

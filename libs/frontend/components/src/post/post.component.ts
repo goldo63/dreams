@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
-import { IAccount, IPost } from '@dreams/shared/models';
+import { IPost } from '@dreams/shared/models';
 import { PostService } from './post.service';
-import { UserService } from '../user/user.service';
-import { AccountValidator } from '@dreams/shared/services';
 import { Observable, of, startWith, tap } from 'rxjs';
 
 @Component({
@@ -15,7 +13,6 @@ export class PostComponent {
 
   constructor(
     private postService: PostService,
-    private userService: UserService
   ) {}
 
   ngOnInit(): void {

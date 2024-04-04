@@ -9,8 +9,10 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Identity, IdentityDocument } from './identity.schema';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { User, UserDocument } from '../../../features/src/lib/user/user.schema';
-import { environment } from '@dreams/shared/services'
 import { IAccount } from '@dreams/shared/models';
+
+import { config } from 'dotenv';
+config();
 
 @Injectable()
 export class AuthService {
@@ -30,7 +32,7 @@ export class AuthService {
 
     async verifyToken(token: string): Promise<string | JwtPayload> {
         return new Promise((resolve, reject) => {
-            verify(token, environment.JWT_SECRET, (err, payload) => {
+            verify(token, process.env['JWT_SECRET'] as string, (err, payload) => {
                 if (err) reject(err);
                 else resolve(payload as JwtPayload);
             })
@@ -38,8 +40,8 @@ export class AuthService {
     }
 
     async registerUser(username: string, password: string) {
-        this.logger.log(environment.SALT_ROUNDS);
-        const generatedHash = await hash(password, parseInt(environment.SALT_ROUNDS));
+        this.logger.log(process.env['SALT_ROUNDS']);
+        const generatedHash = await hash(password, parseInt(process.env['SALT_ROUNDS'] as string));
         this.logger.log(generatedHash);
 
         const identity = new this.identityModel({username, hash: generatedHash});
@@ -69,7 +71,7 @@ export class AuthService {
         return new Promise((resolve, reject) => {
             sign(
               { username, id: user.id! },
-              environment.JWT_SECRET,
+              process.env['JWT_SECRET'] as string,
               (err: any, token: any) => {
                 if (err) reject(err);
                 else resolve(token);
