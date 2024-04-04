@@ -9,7 +9,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Identity, IdentityDocument } from './identity.schema';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { User, UserDocument } from '../../../features/src/lib/user/user.schema';
-import { IAccount } from '@dreams/shared/models';
+import { AuthIdentifier, IAccount } from '@dreams/shared/models';
 import { environment } from '@dreams/shared/services';
 
 @Injectable()
@@ -26,7 +26,9 @@ export class AuthService {
         const user = new this.userModel(account, hash);
         await user.save();
         return user.id;
-      }
+    }
+
+
 
     async verifyToken(token: string): Promise<string | JwtPayload> {
         return new Promise((resolve, reject) => {
@@ -45,7 +47,7 @@ export class AuthService {
         await identity.save();
     }
 
-    async generateToken(username: string, password: string): Promise<string> {
+    async generateToken(username: string, password: string): Promise<AuthIdentifier> {
         const identity = await this.identityModel.findOne({ username });
         
         if (!identity) {
@@ -68,12 +70,15 @@ export class AuthService {
             sign(
               { username, id: user.id! },
               environment.jwtSecret,
-              (err: any, token: any) => {
+              async (err: any, token: any) => {
                 if (err) reject(err);
-                else resolve(token);
+                else {
+                    const authIdentifier: AuthIdentifier = { token: { token }, user: { id: user.id, username: user.username } };
+                    resolve(authIdentifier);
+                }
               }
             );
-          });
+        });
 
     }
 }

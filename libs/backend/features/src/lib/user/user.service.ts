@@ -21,6 +21,15 @@ export class UserService {
         return item;
     }
 
+    async getByUsername(username: string): Promise<IAccount | null> {
+        this.logger.log(`Finding post by id ${username}`);
+    
+        const item = await this.userModel.findOne({ username: +username }).exec();
+    
+        if (!item) return null;
+        return item;
+    }
+
     async addFriend(userId: number, friendId: number): Promise<IAccount | null> {
         this.logger.log(`Adding friend ${userId} to ${friendId}`);
 

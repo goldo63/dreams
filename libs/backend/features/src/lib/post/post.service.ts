@@ -44,8 +44,9 @@ export class PostService {
     return items;
   }
 
-  async create(user_id: string, post: IPost): Promise<IPost | null> {
-    if (post && user_id) {
+  async create(post: IPost): Promise<IPost | null> {
+    post.id = uuid();
+    if (post) {
       this.logger.log(`Create post ${post.title}`);
       return this.postModel.create(post);
     }

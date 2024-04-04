@@ -33,9 +33,9 @@ export class PostController {
     return result;
   }
 
-  @Post(':id')
-  async createPost(@Param('id') id: string, @Res() res: Response, @Body() post: IPost): Promise<void> {
-    const result = await this.postService.create(id, post);
+  @Post()
+  async createPost(@Res() res: Response, @Body() post: IPost): Promise<void> {
+    const result = await this.postService.create(post);
     if(result == null) throw new NotFoundException(`No post could be added`);
     (res as any).status(200).json({ message: `New post added by ${result.id}` });
   }

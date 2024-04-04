@@ -3,6 +3,7 @@ import { IPost, ReadAbility, ApiResponse } from '@dreams/shared/models';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, delay, filter, from, map, of, take, tap, throwError } from 'rxjs';
 import { environment } from '@dreams/shared/services';
+import { AuthService } from '@dreams/frontend/uiAuth';
 
 export const httpOptions = {
   observe: 'body',
@@ -17,7 +18,10 @@ export class PostService {
   endpoint = environment.apiURL + '/data/post';
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  constructor(private readonly http: HttpClient) {}
+  constructor(
+    private readonly http: HttpClient,
+    private readonly authService: AuthService
+    ) {}
 
   public getAllpublic(options?: any): Observable<IPost[]> {
     console.log(`list ${this.endpoint}`);
@@ -55,6 +59,7 @@ export class PostService {
 
   create(post: IPost): Observable<IPost> {
     console.log('creating post');
+
     return this.http
       .post<IPost>(this.endpoint, post)
       .pipe(

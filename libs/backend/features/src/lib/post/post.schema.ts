@@ -12,8 +12,8 @@ export class Post implements IPost {
     @Prop({default: uuid, index: true})
     id!: string;
 
-    @Prop({ type: SchemaTypes.ObjectId, required: true })
-    posterId!: Id;
+    @Prop({ default: uuid }) // Use uuid for posterId
+    posterId!: string;
 
     @Prop({ required: true })
     postDate!: Date;
