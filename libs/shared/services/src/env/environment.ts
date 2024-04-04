@@ -2,11 +2,17 @@ import { IEnvironment } from './environment.interface';
 
 export const environment: IEnvironment = {
     production: false,
+    apiURL: 'http://localhost:3000/api',
+    port: 3000,
+    mongoDBConnectionString: 'mongodb://localhost:27017/dreams',
+    neo4j: {
+      host: 'localhost',
+      port: 7687,
+      user: 'neo4j',
+      password: 'Goldo123',
+      database: 'dreams'
+    },
+    jwtSecret: 'secretKey',
+    saltRounds: 10
 
-    ROOT_DOMAIN_URL: 'dummy',
-    dataApiUrl: 'dummy',
-
-    MONGO_DB_CONNECTION_STRING: 'dummy',
-    JWT_SECRET: '10',
-    SALT_ROUNDS: '10'
 };

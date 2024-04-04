@@ -11,9 +11,6 @@ import { Identity, IdentityDocument } from './identity.schema';
 import { User, UserDocument } from '../../../features/src/lib/user/user.schema';
 import { IAccount } from '@dreams/shared/models';
 
-import { config } from 'dotenv';
-config();
-
 @Injectable()
 export class AuthService {
     private readonly logger = new Logger(AuthService.name);

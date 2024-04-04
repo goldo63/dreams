@@ -6,9 +6,6 @@ import { TokenMiddleware, AuthModule } from '@dreams/backend/auth';
 import { RouterModule } from '@nestjs/core';
 import { Neo4jModule } from 'nest-neo4j';
 
-import { config } from 'dotenv';
-config();
-
 
 @Module({
   imports: [

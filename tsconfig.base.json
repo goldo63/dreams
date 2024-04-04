@@ -13,6 +13,8 @@
     "lib": ["es2020", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
+    "types": [ "node" ],
+    "typeRoots": [ "./node_modules/@types" ],
     "baseUrl": ".",
     "paths": {
       "@avans-nx-workshop/backend/auth": ["libs/backend/auth/src/index.ts"],

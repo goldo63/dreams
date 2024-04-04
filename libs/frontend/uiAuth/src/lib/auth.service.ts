@@ -1,6 +1,3 @@
-import { config } from 'dotenv';
-config();
-
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
