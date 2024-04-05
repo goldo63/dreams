@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'dreams-app-login',
@@ -12,19 +13,27 @@ export class LoginComponent {
     password: ''
   };
 
-  constructor(private authService: AuthService) {}
-
+  constructor(private authService: AuthService, private router: Router) {}
+  
   onSubmit(): void {
     this.authService.login(this.formData).subscribe(
       (response) => {
         // Handle successful login
         console.log('Login successful:', response);
+        this.router.navigate(['/item/post']);
       },
       (error) => {
         // Handle login error
         console.error('Login error:', error);
       }
     );
+  }
+
+  ngOnInit(): void {
+    const user = this.authService.getAuthIdentifier();
+    if (user) {
+      this.router.navigate(['/item/post']);
+    }
   }
 
   isValid(): boolean {

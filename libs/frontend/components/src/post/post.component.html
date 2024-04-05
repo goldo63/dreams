@@ -1,6 +1,3 @@
-<div class="start">  
-    <a [routerLink]="['create']" type="submit" class=" btn btn-primary">create new post</a>
-  </div>
   <div *ngIf="posts$ | async as posts; else loadingTemplate">
     <!-- Check if there are posts -->
     <ng-container *ngIf="posts !== null && posts !== undefined; else noPostsFoundTemplate">
