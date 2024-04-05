@@ -15,7 +15,9 @@
         <p class="username">U/unknown</p>
     </ng-template>
     <h2>{{post.title}}</h2>
-    <a routerLink="update" class="btn btn-primary">Edit</a>
+    <ng-container *ngIf="userMayEdit">
+        <a routerLink="update" class="btn btn-primary">Edit</a>
+    </ng-container>
     <hr>
 
     <div [innerHTML]="post.content"></div>

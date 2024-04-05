@@ -54,9 +54,9 @@ export class PostService {
     return null;
   }
 
-  async update(_id: string, post: IPost): Promise<IPost | null> {
-    this.logger.log(`Update post ${_id}`);
-    return this.postModel.findOneAndUpdate({ id: _id }, post);
+  async update(post: IPost): Promise<IPost | null> {
+    this.logger.log(`Update post ${post.title}`);
+    return this.postModel.findOneAndUpdate({ id: post.id }, post);
   }
 
   async deleteById(id: string): Promise<{ deletedCount: number }> {

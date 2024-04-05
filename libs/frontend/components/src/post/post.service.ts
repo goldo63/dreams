@@ -69,7 +69,7 @@ export class PostService {
 
   update(post: IPost): Observable<IPost> {
     console.log('updating post');
-    const url = `${this.endpoint}/${post.id}`;
+    const url = `${this.endpoint}`;
     return this.http
       .put<IPost>(url, post)
       .pipe(

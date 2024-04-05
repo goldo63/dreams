@@ -41,9 +41,9 @@ export class PostController {
     (res as any).status(200).json({ message: `New post added by ${result.id}` });
   }
 
-  @Put(':id')
-  async update(@Param('id') id: string, @Res() res: Response, @Body() post: IPost): Promise<void> {
-    const result = await this.postService.update(id, post);
+  @Put()
+  async update(@Res() res: Response, @Body() post: IPost): Promise<void> {
+    const result = await this.postService.update(post);
     if(result == null) throw new NotFoundException(`No post could be added`);
     (res as any).status(200).json({ message: `Post updated by ${result.id}` });
   }
