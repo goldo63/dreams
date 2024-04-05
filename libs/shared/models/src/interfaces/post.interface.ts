@@ -1,4 +1,5 @@
 import { Id } from "./id.interface";
+import { IReaction } from "./reaction.interface";
 
 export interface IPost {
     id: Id;
@@ -9,6 +10,7 @@ export interface IPost {
     videoUrl?: string;
     content: string; //HTML string using quill
     readAbility: ReadAbility;
+    reactions?: IReaction[];
 }
 
 export enum ReadAbility {

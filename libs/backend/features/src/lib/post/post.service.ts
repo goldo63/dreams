@@ -2,10 +2,11 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { IAccount, IPost, IReaction, ITags, IUser, ReadAbility } from '@dreams/shared/models';
 import { Post as PostModel, PostDocument } from './post.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Reaction } from '../postDetails/reaction.schema';
 import { v4 as uuid } from 'uuid';
 import { Neo4jService } from 'nest-neo4j';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class PostService {
@@ -54,8 +55,8 @@ export class PostService {
   }
 
   async update(_id: string, post: IPost): Promise<IPost | null> {
-    this.logger.log(`Update post ${post.title}`);
-    return this.postModel.findByIdAndUpdate({ _id }, post);
+    this.logger.log(`Update post ${_id}`);
+    return this.postModel.findOneAndUpdate({ id: _id }, post);
   }
 
   async deleteById(id: string): Promise<{ deletedCount: number }> {

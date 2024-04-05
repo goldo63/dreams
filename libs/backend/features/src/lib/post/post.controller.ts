@@ -7,6 +7,7 @@ import {
   NotFoundException,
   Param,
   Post,
+  Put,
   Res,
 } from '@nestjs/common';
 import { PostService } from './post.service';
@@ -38,6 +39,13 @@ export class PostController {
     const result = await this.postService.create(post);
     if(result == null) throw new NotFoundException(`No post could be added`);
     (res as any).status(200).json({ message: `New post added by ${result.id}` });
+  }
+
+  @Put(':id')
+  async update(@Param('id') id: string, @Res() res: Response, @Body() post: IPost): Promise<void> {
+    const result = await this.postService.update(id, post);
+    if(result == null) throw new NotFoundException(`No post could be added`);
+    (res as any).status(200).json({ message: `Post updated by ${result.id}` });
   }
 
   @Delete(':id')

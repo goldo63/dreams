@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { IAccount, IPost, IUser } from '@dreams/shared/models';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, map, switchMap, tap } from 'rxjs';
 import { UserService } from '../../user/user.service';
 import { PostService } from '../post.service';
+import { AuthService } from '@dreams/frontend/uiAuth';
 
 @Component({
   selector: 'dreams-detail-post',
@@ -15,9 +16,12 @@ export class DetailPostComponent {
   user$: Observable<IAccount> | null = null;
   userDetails: IUser | undefined;
 
+  userMayEdit = false;
+
   constructor(
     private postService: PostService, 
     private userService: UserService,
+    private authService: AuthService,
     private route: ActivatedRoute
   ) {}
 
@@ -27,6 +31,11 @@ export class DetailPostComponent {
         this.postService.getById(params.get('id') as string),
       )
     )
+      
+    this.post$.pipe(
+      switchMap(post => this.authService.userMayEdit(post.posterId)),
+      tap(canEdit => this.userMayEdit = canEdit)
+    ).subscribe();
 
     this.user$ = this.post$.pipe(
       switchMap((post: IPost) => this.userService.getById(post.posterId))
