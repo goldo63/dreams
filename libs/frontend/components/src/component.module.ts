@@ -10,6 +10,7 @@ import { DetailUserComponent } from './user/detail/detailUser.component';
 import { PostComponent } from './post/post.component';
 import { EditPostComponent } from './post/create/editPost.component';
 import { DetailPostComponent } from './post/detail/detailPost.component';
+import { ReactionsComponent } from './post/detail/reactions/reactions.component';
 
 const componentRoute: Routes = [
   { path: 'user/:id', component: DetailUserComponent },
@@ -28,6 +29,7 @@ const componentRoute: Routes = [
     PostComponent,
     EditPostComponent,
     DetailPostComponent,
+    ReactionsComponent,
   ],
   imports: [
     CommonModule,
@@ -36,6 +38,6 @@ const componentRoute: Routes = [
     QuillModule.forRoot(),
     RouterModule.forChild(componentRoute),
   ],
-  exports: [RouterModule],
+  exports: [RouterModule,ReactionsComponent],
 })
 export class ComponentModule {}

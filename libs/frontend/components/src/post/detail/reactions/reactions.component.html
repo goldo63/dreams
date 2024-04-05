@@ -1,0 +1,8 @@
+<ul>
+    <li *ngFor="let reaction of reactions">
+        <p>{{reaction.Context}}</p>
+        <div *ngIf="reaction.reactions && reaction.reactions.length > 0">
+            <app-reactions [reactions]="reaction.reactions"></app-reactions>
+        </div>
+    </li>
+</ul>
