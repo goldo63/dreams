@@ -1,6 +1,22 @@
 <ul>
-    <li *ngFor="let reaction of reactions">
+    <li  *ngFor="let reaction of reactions; let i = index">
+        <p>{{reaction}}</p>
         <p>{{reaction.Context}}</p>
+        <div class="reactionSettings" style="display: flex; justify-content: space-between;">
+            <button (click)="showReact(i)" class="btn btn-primary">React</button>
+        </div>
+        <form *ngIf="selectedReactionIndex === i" (submit)="submitReaction($event)">
+            <div>
+              <input type="radio" id="positive" name="reviewType" [(ngModel)]="newReactionIsPositive" value="true">
+              <label for="positive">Positive Review</label>
+            </div>
+            <div>
+              <input type="radio" id="negative" name="reviewType" [(ngModel)]="newReactionIsPositive" value="false">
+              <label for="negative">Negative Review</label>
+            </div>
+            <textarea [(ngModel)]="newReactionContent"></textarea>
+            <button type="submit" class="btn btn-primary">Submit Reaction</button>
+          </form>
         <div *ngIf="reaction.reactions && reaction.reactions.length > 0">
             <app-reactions [reactions]="reaction.reactions"></app-reactions>
         </div>
