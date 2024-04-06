@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { IPost, ReadAbility, ApiResponse } from '@dreams/shared/models';
+import { IPost, ReadAbility, ApiResponse, IReaction } from '@dreams/shared/models';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, catchError, delay, filter, from, map, of, take, tap, throwError } from 'rxjs';
 import { environment } from '@dreams/shared/services';
@@ -86,6 +86,30 @@ export class PostService {
         catchError(this.handleError)
       );
   }
+
+  react(postId: string, reactionId: string | null, reaction: IReaction): Observable<void> {
+    if(reactionId) {
+        console.log('reacting to subreaction:', postId, reactionId);
+        const url = `${this.endpoint}/${postId}/subreactions/${reactionId}`;
+        console.log('subreaction url:', url);
+        return this.http
+            .post<void>(url, reaction)
+            .pipe(
+                tap(() => console.log('Subreaction posted successfully')),
+                catchError(error => this.handleError(error))
+            );
+    } else {
+        console.log('reacting to post:', postId);
+        const url = `${this.endpoint}/${postId}/reactions`;
+        console.log('reaction url:', url);
+        return this.http
+            .post<void>(url, reaction)
+            .pipe(
+                tap(() => console.log('Reaction posted successfully')),
+                catchError(this.handleError)
+            );
+    }
+}
 
   private handleError(error: any): Observable<never> {
     //console.error('Error occurred:', error);

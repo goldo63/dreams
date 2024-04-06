@@ -25,7 +25,7 @@
 
     <div *ngIf="post.reactions && post.reactions.length > 0">
       <h4>Reactions:</h4>
-      <app-reactions [reactions]="post.reactions"></app-reactions>
+      <app-reactions (reactionSubmitted)="handlePostRefresh()" [postId]="post.id" [reactions]="post.reactions"></app-reactions>
     </div>
     <div *ngIf="!post.reactions || post.reactions.length === 0">
       <p>No reactions here.</p>

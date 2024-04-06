@@ -81,8 +81,8 @@ export class PostController {
 
   @Post(':id/subreactions/:reactionid')
   async addSubReaction(@InjectToken() token: Token, @Param('id') id: string, @Param('reactionid') reactionId: string, @Res() res: Response, @Body() reaction: IReaction): Promise<void> {
+    this.logger.log("REACHED");
     const result = await this.postService.addSubReaction(token.id, id, reactionId, reaction);
-
     if(result == null) throw new NotFoundException(`Post by id ${id} or reaction by id ${reactionId} not found`);
     (res as any).status(200).json({ message: 'Subreaction added successfully' });
   }
