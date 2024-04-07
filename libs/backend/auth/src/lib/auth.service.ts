@@ -24,6 +24,7 @@ export class AuthService {
         account.username = name;
         
         const user = new this.userModel(account, hash);
+
         await user.save();
         return user.id;
     }
@@ -39,10 +40,10 @@ export class AuthService {
         })
     }
 
-    async registerUser(username: string, password: string) {
+    async registerUser(id: string, username: string, password: string) {
         const generatedHash = await hash(password, environment.saltRounds);
 
-        const identity = new this.identityModel({username, hash: generatedHash});
+        const identity = new this.identityModel({id, username, hash: generatedHash});
 
         await identity.save();
     }

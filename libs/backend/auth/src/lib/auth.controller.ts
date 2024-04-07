@@ -1,7 +1,6 @@
 import { Body, Controller, HttpException, HttpStatus, Logger, Post } from '@nestjs/common';
-
 import { AuthIdentifier, ResourceId, Token, UserCredentials, UserRegistration } from '@dreams/shared/models';
-
+import { v4 as uuid } from 'uuid';
 import { AuthService } from './auth.service';
 
 @Controller()
@@ -14,7 +13,9 @@ export class AuthController {
     @Post('register')
     async register(@Body() credentials: UserRegistration): Promise<ResourceId> {
         try {
-            await this.authService.registerUser(credentials.username, credentials.password);
+            const id = uuid();
+            credentials.account.id = id;
+            await this.authService.registerUser(id, credentials.username, credentials.password);
             return {
                 id: String(this.authService.createUser(credentials.username, credentials.account)),
             };

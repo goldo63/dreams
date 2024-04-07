@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { IUser, UserRegistration } from '@dreams/shared/models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'dreams-app-register',
@@ -32,13 +33,28 @@ export class RegisterComponent {
     friends: []
   };
 
-  constructor(private authService: AuthService) { }
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
   onSubmit(): void {
     this.formData.account.accountDetails = this.extraData;
-    this.authService.register(this.formData).subscribe((result) => {
-      // Handle registration success or error
-      console.log(result);
-    });
+    this.formData.account.username = this.formData.username;
+    
+    console.log(this.formData);
+    this.authService.register(this.formData).subscribe(
+      (result) => {
+        // Handle registration success
+        console.log('Registration successful:', result);
+        // Redirect to posts page on success
+        this.router.navigate(['/auth/login']);
+      },
+      (error) => {
+        // Handle registration error
+        console.error('Registration error:', error);
+        // You can show an error message to the user or perform other actions
+      }
+    );
   }
 }

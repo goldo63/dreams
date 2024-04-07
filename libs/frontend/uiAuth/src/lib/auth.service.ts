@@ -43,6 +43,7 @@ export class AuthService {
   }
 
   register(userData: UserRegistration): Observable<UserRegistration | undefined> {
+
     return this.http
       .post<UserRegistration>(`${this.apiUrl}/register`, userData, this.httpOptions)
       .pipe(catchError(this.handleError));
