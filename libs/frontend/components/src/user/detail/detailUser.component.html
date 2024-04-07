@@ -1,9 +1,13 @@
-<div *ngIf="(account$ | async) as accountData; else loadingTemplate">
-  <h2>Account Details</h2>
-  <p>Username: {{ accountData.username }}</p>
-  <p>Email: {{ userDetails?.email }}</p>
-  <p>First Name: {{ userDetails?.firstName }}</p>
-  <p>Last Name: {{ userDetails?.lastName }}</p>
+<div class="account-details" *ngIf="(account$ | async) as accountData; else loadingTemplate">
+  <h2>Account details of {{ userDetails?.firstName }} {{ userDetails?.lastName }}</h2>
+  <p class="btn btn-primary username">U/{{ accountData.username }}</p>
+  
+  <div class="contact">
+    <h4>contact:</h4>
+    <p>Email: {{ userDetails?.email }}</p>
+    <p>phoneNumber: {{ accountData.phoneNumber }}</p>
+  </div>
+
   <button class="btn btn-primary" (click)="editAccount()">Edit Account</button>
 
   <hr>

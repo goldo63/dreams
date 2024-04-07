@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { QuillModule } from 'ngx-quill';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { EditUserComponent } from './user/edit/editUser.component';
 import { DetailUserComponent } from './user/detail/detailUser.component';
@@ -34,6 +35,7 @@ const componentRoute: Routes = [
     TagsComponent,
   ],
   imports: [
+    NgbModule,
     CommonModule,
     RouterModule,
     FormsModule,
