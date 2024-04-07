@@ -78,4 +78,30 @@ export class DetailPostComponent {
       }
     );
   }
+
+  toggleMedia() {
+    const imgElement = document.querySelector('.media img') as HTMLImageElement;
+    const videoElement = document.querySelector('.media video') as HTMLVideoElement;
+
+    const imgTag = document.querySelector('.imgTag') as HTMLDivElement;
+    const videoTag = document.querySelector('.videoTag') as HTMLDivElement;
+
+    
+    if (imgElement && videoElement) {
+        if (imgElement.style.display !== 'none') {
+            imgElement.style.display = 'none';
+            videoElement.style.display = 'block';
+            videoElement.play(); // Auto-play video when clicked
+            imgTag.classList.remove('active');
+            videoTag.classList.add('active');
+
+        } else {
+            imgElement.style.display = 'block';
+            videoElement.style.display = 'none';
+            videoElement.pause(); // Pause video when toggled back to image
+            imgTag.classList.add('active');
+            videoTag.classList.remove('active');
+        }
+    }
+  }
 }
