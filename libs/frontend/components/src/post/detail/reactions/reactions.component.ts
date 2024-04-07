@@ -28,7 +28,8 @@ export class ReactionsComponent {
   }
 
   showReact(index: number): void {
-    this.selectedReactionIndex = index; // Set the index of the selected reaction
+    if(this.selectedReactionIndex === index) this.selectedReactionIndex = null;
+    else this.selectedReactionIndex = index; // Set the index of the selected reaction
   }
 
   submitReaction(event: Event, postId: string, reactionId: string | null): void {

@@ -1,0 +1,59 @@
+ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  li {
+    margin-bottom: 20px;
+  }
+  
+  .reaction,
+  .reactions-container {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .reaction-container {
+    padding-left: 40px;
+    border-left: 2px solid #ccc;
+  }
+  
+  .nested-reactions {
+    margin-top: 10px;
+  }
+
+  
+  .reaction p {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .reaction .reactionSettings {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .reactionForm {
+    margin-top: 10px;
+  }
+  
+  .reactionForm div {
+    margin-bottom: 10px;
+  }
+  
+  .reactionForm label {
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .reactionForm textarea {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
