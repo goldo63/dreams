@@ -4,7 +4,33 @@
   <p>Email: {{ userDetails?.email }}</p>
   <p>First Name: {{ userDetails?.firstName }}</p>
   <p>Last Name: {{ userDetails?.lastName }}</p>
-  <button (click)="editAccount()">Edit Account</button>
+  <button class="btn btn-primary" (click)="editAccount()">Edit Account</button>
+
+  <hr>
+
+  <ng-container *ngIf="userDetails">
+    <h4>Friends:</h4>
+    <div class="friends" *ngIf="userDetails.friends && userDetails.friends.length > 0; else noFriends">
+      
+      <ul>
+        <li *ngFor="let friend of userDetails.friends">
+          <p>{{ friend.username }}</p>
+          <p>{{ friend.phoneNumber}}</p>
+          <!-- You can display other friend details here -->
+        </li>
+      </ul>
+    </div>
+    <ng-template #noFriends>
+      <p>No friends found.</p>
+    </ng-template>
+  </ng-container>
+
+  <hr>
+  
+  <div class="reviews">
+    <h4>Reviews:</h4>
+  </div>
+
 </div>
 
 <ng-template #loadingTemplate>

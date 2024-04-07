@@ -16,7 +16,7 @@ export class AuthController {
         try {
             await this.authService.registerUser(credentials.username, credentials.password);
             return {
-                id: await String(this.authService.createUser(credentials.username, credentials.account)),
+                id: String(this.authService.createUser(credentials.username, credentials.account)),
             };
         } catch (e) {
             this.logger.error(e);

@@ -10,6 +10,7 @@ import mongoose from 'mongoose';
 
 @Injectable()
 export class PostService {
+  
   private readonly logger: Logger = new Logger(PostService.name);
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -192,15 +193,29 @@ export class PostService {
   async getReactionsFromUser(userId: string): Promise<any[]> {
     try {
         const result = await this.neo4jService.read(
-            `MATCH (u:User {id: $userId})-[:REACTED]->(r:Reaction)
-             RETURN r`,
+            `MATCH (u:User {id: $userId})-[:REACTED]->(r:Reaction)-[:REACTED_TO]->(p:Post)
+             RETURN r, p.id AS postId`,
             { userId: userId }
         );
 
-        return result.records.map(record => record.get('r').properties);
+        return result.records.map(record => ({
+            reactionId: record.get('r').properties.id,
+            postId: record.get('postId')
+        }));
     } catch (error) {
         this.logger.error(`Error reading reactions from user: ${error}`);
         throw error;
     }
-}
+  }
+
+  async getReaction(postId: string, reactionId: string): Promise<IReaction | null> {
+    const post = await this.postModel.findOne({ id: postId }).exec();
+    if (!post || !post.reactions) return null;
+
+    const reaction = this.findReactionById(post.reactions, reactionId) as IReaction;
+    if(!reaction) return null;
+
+    return reaction;
+  }
+
 }

@@ -13,6 +13,7 @@ import { AccountValidator } from '@dreams/shared/services';
 export class DetailUserComponent implements OnInit {
   account$!: Observable<IAccount | undefined>; // Change the type to Observable<IAccount | undefined>
   userDetails: IUser | undefined;
+  friends$!: Observable<IAccount[]>; // Change the type to Observable<IAccount[] |
 
   constructor(private userService: UserService, private router: Router) { }
 

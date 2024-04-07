@@ -8,14 +8,14 @@
         </video>
     </div>
 
-    <ng-container *ngIf="(user$ | async) as userData">
+    <ng-container *ngIf="(user$ | async) as userData; else wrongUserTemplate">
         <ng-container *ngIf="userData; else wrongUserTemplate">
             <p class="username">U/{{ userData.username }}</p>
         </ng-container>
-        <ng-template #wrongUserTemplate>
-          <p class="username">U/unknown</p>
-        </ng-template>
       </ng-container>
+      <ng-template #wrongUserTemplate>
+        <p class="username">U/unknown</p>
+      </ng-template>
       
       <h2>{{ post.title }}</h2>
       

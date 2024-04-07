@@ -14,6 +14,7 @@ import { PostService } from './post.service';
 import { IPost, IReaction, ITags } from '@dreams/shared/models';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { InjectToken, Token } from '../../../../auth/src/lib/token/token.decorator';
+import { Reaction } from '../postDetails/reaction.schema';
 
 @Controller('post')
 export class PostController {
@@ -64,12 +65,31 @@ export class PostController {
     (res as any).status(200).json({ message: 'Tags set successfully' });
   }
 
-  @Get(':id/reactions')
-  async getReactionsFromUser(@Param('id') id: string): Promise<any[]> {
-    const result = this.postService.getReactionsFromUser(id);
-    console.log(result);
-    return result;
+  @Get(':id/myreactions')
+async getReactionsFromUser(@Param('id') id: string): Promise<IReaction[]> {
+  try {
+    const result = await this.postService.getReactionsFromUser(id);
+    const reactions: IReaction[] = [];
+
+    // Iterate over each item in the result array
+    for (const item of result) {
+      const reactionToPush = await this.postService.getReaction(item.postId, item.reactionId);
+      if(reactionToPush !== null) {
+        reactionToPush.reactions = [];
+        reactions.push(reactionToPush);
+      }
+    }
+
+    // Log the reactions array for debugging
+    console.log(reactions);
+
+    // Return the constructed reactions array
+    return reactions;
+  } catch (error) {
+    this.logger.error(`Error getting reactions from user: ${error}`);
+    throw error;
   }
+}
 
   @Post(':id/reactions')
   async addReaction(@InjectToken() token: Token, @Param('id') id: string, @Res() res: Response, @Body() reaction: IReaction): Promise<void> {
