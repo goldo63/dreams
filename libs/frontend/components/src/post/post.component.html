@@ -4,16 +4,15 @@
         <!-- Check if posts is an array and has elements -->
         <ng-container *ngIf="posts?.length; else noPostsFoundTemplate">
             <div class="post" *ngFor="let post of posts; let i = index">
-                <div class="flex-wrap">
+                <div [routerLink]="[post.id]" class="flex-wrap">
                     <div class="details">
                         <!-- <p class="username">U/:{{ getUserName( post.posterId ) }}</p> -->
-                        <a [routerLink]="[post.id]" type="submit" class=""><h2>{{ post.title}}</h2></a>
+                        <a  type="submit" class=""><h2>{{ post.title}}</h2></a>
                         <dreams-tags *ngIf="post.tags" [tags]="post.tags"></dreams-tags>
                     </div>
                     <div class="controls">
                     </div>
                 </div>
-                <hr>
             </div>
 
         </ng-container>
