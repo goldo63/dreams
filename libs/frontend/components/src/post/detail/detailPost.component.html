@@ -31,6 +31,22 @@
     <div [innerHTML]="post.content"></div>
     <hr>
 
+    <div class="reactionFormContainer">
+      <button (click)="showReact()" class="btn btn-primary">React</button>
+      <form class="reactionForm" *ngIf="showForm == true" (submit)="react()">
+        <div>
+          <input type="radio" id="positive" name="reviewType" [(ngModel)]="reaction.isPositiveVote" value="true"> <!-- Set the name attribute dynamically -->
+          <label for="positive">Positive Review</label>
+        </div>
+        <div>
+          <input type="radio" id="negative" name="reviewType" [(ngModel)]="reaction.isPositiveVote" value="false"> <!-- Set the name attribute dynamically -->
+          <label for="negative">Negative Review</label>
+        </div>
+        <textarea [(ngModel)]="reaction.Context" name="reactionContent"></textarea>
+        <button type="submit" class="btn btn-primary">Submit Reaction</button>
+      </form>
+    </div>
+
     <div *ngIf="post.reactions && post.reactions.length > 0">
       <h4>Reactions:</h4>
       <app-reactions (reactionSubmitted)="handlePostRefresh()" [postId]="post.id" [reactions]="post.reactions"></app-reactions>

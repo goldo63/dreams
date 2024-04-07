@@ -45,6 +45,33 @@
     border-radius: 5px;
 }
 
+/* ==========reactionForm========== */
+.reactionFormContainer {
+    margin-top: 10px;
+}
+
+.reactionForm {
+    margin-top: 10px;
+}
+
+.reactionForm div {
+    margin-bottom: 10px;
+}
+
+.reactionForm label {
+    font-size: 14px;
+    color: #333;
+    margin-left: 5px;
+}
+
+.reactionForm textarea {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+/* =====GENERAL===== */
 .username {
     font-size: 16px;
     font-weight: bold;
@@ -52,22 +79,11 @@
     margin-bottom: 10px;
 }
 
+
 h2 {
     font-size: 24px;
     margin-bottom: 20px;
     color: #333;
-}
-
-.btn {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-}
-
-.btn:hover {
-    background-color: #0056b3;
 }
 
 hr {

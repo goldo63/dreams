@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { IAccount, IPost, IUser } from '@dreams/shared/models';
+import { IAccount, IPost, IReaction, IUser } from '@dreams/shared/models';
 import { Observable, Subject, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { UserService } from '../../user/user.service';
@@ -15,9 +15,19 @@ import { AuthService } from '@dreams/frontend/uiAuth';
 export class DetailPostComponent {
   post$: Observable<IPost> | null = null;
   user$: Observable<IAccount> | null = null;
+
   accountDetails: IAccount | undefined;
   userDetails: IUser | undefined;
   postId = '';
+
+  showForm = false;
+  reaction: IReaction = {
+    id: '0',
+    isPositiveVote: true,
+    Context: '',
+    ReactionDate: new Date(),
+    reactions: undefined
+  };
 
   userMayEdit = false;
 
@@ -51,9 +61,8 @@ export class DetailPostComponent {
   }
 
   private handlePost(params: ParamMap): Observable<IPost> {
-    const postId = params.get('id') as string;
-    this.postId = postId;
-    return this.postService.getById(postId).pipe(
+    this.postId = params.get('id') as string;
+    return this.postService.getById(this.postId).pipe(
       switchMap(post => this.handleUserMayEdit(post)),
     );
   }
@@ -103,5 +112,24 @@ export class DetailPostComponent {
             videoTag.classList.remove('active');
         }
     }
+  }
+
+  showReact() {
+    this.showForm =!this.showForm;
+  }
+
+  react() {
+    this.postService.react(this.postId, null, this.reaction).subscribe(
+      () => {
+        // Optionally, you can handle a successful response here
+        console.log('Reaction submitted successfully');
+        this.handlePostRefresh();
+        this.showForm = false;
+      },
+      error => {
+        // Handle error if the post couldn't be refreshed
+        console.error('Error submitting reaction:', error);
+      }
+    );
   }
 }
