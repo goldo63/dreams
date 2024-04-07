@@ -8,6 +8,7 @@
                     <div class="details">
                         <!-- <p class="username">U/:{{ getUserName( post.posterId ) }}</p> -->
                         <a [routerLink]="[post.id]" type="submit" class=""><h2>{{ post.title}}</h2></a>
+                        <dreams-tags *ngIf="post.tags" [tags]="post.tags"></dreams-tags>
                     </div>
                     <div class="controls">
                     </div>

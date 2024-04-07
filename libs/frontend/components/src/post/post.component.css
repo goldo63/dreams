@@ -6,11 +6,12 @@
     margin-bottom: 20px;
 }
 
-.post .flex-wrap{
-    display: flex;
-    justify-content: space-between;
-}
 .post .flex-wrap .controls{
     display: flex;
     align-items: flex-end;
+}
+
+.details{
+    display: flex;
+    justify-content: space-between;
 }

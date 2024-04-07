@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, throwError } from 'rxjs';
-import { ApiResponse, IAccount, IUser, UserRegistration } from '@dreams/shared/models';
+import { ApiResponse, IAccount, IReaction, IUser, UserRegistration } from '@dreams/shared/models';
 import { AccountValidator, environment } from '@dreams/shared/services';
 import { AuthService } from '@dreams/frontend/uiAuth';
 
@@ -37,6 +37,15 @@ export class UserService {
   updateUser(user: UserRegistration): Observable<UserRegistration> {
     // Implement logic to update user data on the server
     return this.http.put<UserRegistration>(`${this.apiUrl}/user/${user.account.id}`, user);
+  }
+
+  getReactions(): Observable<IReaction[]> {
+    const url = `${this.apiUrl}/post/${this.authService.getAuthIdentifier()?.user.id}/myReactions`;
+    console.log(`GET reactions: ${url}`);
+    return this.http.get<ApiResponse<IReaction[]>>(url).pipe(
+      map(response => response.results as IReaction[]),
+      catchError(this.handleError)
+    );
   }
 
   private handleError(error: any): Observable<never> {

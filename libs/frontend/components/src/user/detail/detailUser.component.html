@@ -29,6 +29,11 @@
   
   <div class="reviews">
     <h4>Reviews:</h4>
+    <ul>
+      <li *ngFor="let reaction of reactions$ | async">
+        <p>{{ reaction.Context }}</p>
+      </li>
+    </ul>
   </div>
 
 </div>

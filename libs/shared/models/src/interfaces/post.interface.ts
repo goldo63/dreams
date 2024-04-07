@@ -1,5 +1,6 @@
 import { Id } from "./id.interface";
 import { IReaction } from "./reaction.interface";
+import { ITags } from "./tags.interface";
 
 export interface IPost {
     id: Id;
@@ -10,6 +11,7 @@ export interface IPost {
     videoUrl?: string;
     content: string; //HTML string using quill
     readAbility: ReadAbility;
+    tags?: ITags[];
     reactions?: IReaction[];
 }
 

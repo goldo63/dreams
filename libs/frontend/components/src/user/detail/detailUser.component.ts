@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs'; // Import the `of` function
-import { IAccount, IUser } from '@dreams/shared/models';
+import { IAccount, IReaction, IUser } from '@dreams/shared/models';
 import { UserService } from '../user.service';
 import { AccountValidator } from '@dreams/shared/services';
 
@@ -13,7 +13,7 @@ import { AccountValidator } from '@dreams/shared/services';
 export class DetailUserComponent implements OnInit {
   account$!: Observable<IAccount | undefined>; // Change the type to Observable<IAccount | undefined>
   userDetails: IUser | undefined;
-  friends$!: Observable<IAccount[]>; // Change the type to Observable<IAccount[] |
+  reactions$!: Observable<IReaction[]>; // Change the type to Observable<IAccount[] |
 
   constructor(private userService: UserService, private router: Router) { }
 
@@ -23,6 +23,11 @@ export class DetailUserComponent implements OnInit {
       if (account) {
         this.userDetails = account.accountDetails as IUser;
       }
+    });
+
+    this.reactions$ = this.userService.getReactions();
+    this.reactions$.subscribe(reactions => {
+      console.log(reactions);
     });
   }
 
