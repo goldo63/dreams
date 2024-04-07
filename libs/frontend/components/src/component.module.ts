@@ -13,8 +13,8 @@ import { DetailPostComponent } from './post/detail/detailPost.component';
 import { ReactionsComponent } from './post/detail/reactions/reactions.component';
 
 const componentRoute: Routes = [
-  { path: 'user/:id', component: DetailUserComponent },
-  { path: 'user/:id/update', component: EditUserComponent },
+  { path: 'user', component: DetailUserComponent },
+  { path: 'user/update', component: EditUserComponent },
 
   { path: 'post', component: PostComponent },
   { path: 'post/create', component: EditPostComponent },
