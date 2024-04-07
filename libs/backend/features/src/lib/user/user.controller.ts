@@ -12,8 +12,7 @@ export class UserController {
     @Get(':id')
     async getById(@Param('id') id: string): Promise<IAccount | null> {
       const result = this.userService.getById(id);
-
-      if (!(await result)) throw new NotFoundException(`Post with id ${id} not found`);
+      if (!(await result)) throw new NotFoundException(`User with id ${id} not found`);
       return result;
     }
 }

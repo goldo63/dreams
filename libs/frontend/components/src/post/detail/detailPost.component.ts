@@ -15,6 +15,7 @@ import { AuthService } from '@dreams/frontend/uiAuth';
 export class DetailPostComponent {
   post$: Observable<IPost> | null = null;
   user$: Observable<IAccount> | null = null;
+  accountDetails: IAccount | undefined;
   userDetails: IUser | undefined;
   postId = '';
 
@@ -34,15 +35,19 @@ export class DetailPostComponent {
     this.post$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => this.handlePost(params))
     );
-
     this.user$ = this.post$.pipe(
       switchMap((post: IPost) => this.userService.getById(post.posterId))
     );
     this.user$.subscribe(account => {
       if (account) {
+        this.accountDetails = account;
         this.userDetails = account.accountDetails as IUser;
       }
     });
+  }
+
+  stringifyObject(obj: any): string {
+    return JSON.stringify(obj);
   }
 
   private handlePost(params: ParamMap): Observable<IPost> {

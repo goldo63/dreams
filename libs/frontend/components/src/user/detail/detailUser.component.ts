@@ -28,4 +28,6 @@ export class DetailUserComponent implements OnInit {
   editAccount(): void {
     this.router.navigate(['/account/edit']);
   }
+
+  
 }

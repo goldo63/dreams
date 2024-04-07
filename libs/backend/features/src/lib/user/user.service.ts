@@ -13,16 +13,16 @@ export class UserService {
     ) {}
 
     async getById(id: string): Promise<IAccount | null> {
-        this.logger.log(`Finding post by id ${id}`);
+        this.logger.log(`Finding user by id ${id}`);
     
-        const item = await this.userModel.findOne({ id: +id }).exec();
+        const item = await this.userModel.findOne({ id: id }).exec();
     
         if (!item) return null;
         return item;
     }
 
     async getByUsername(username: string): Promise<IAccount | null> {
-        this.logger.log(`Finding post by id ${username}`);
+        this.logger.log(`Finding user by id ${username}`);
     
         const item = await this.userModel.findOne({ username: +username }).exec();
     
