@@ -5,7 +5,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { QuillModule } from 'ngx-quill';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { EditUserComponent } from './user/edit/editUser.component';
 import { DetailUserComponent } from './user/detail/detailUser.component';
 
 import { PostComponent } from './post/post.component';
@@ -27,7 +26,6 @@ const componentRoute: Routes = [
 
 @NgModule({
   declarations: [
-    EditUserComponent,
     DetailUserComponent,
     PostComponent,
     EditPostComponent,
