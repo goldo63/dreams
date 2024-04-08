@@ -45,6 +45,19 @@
     border-radius: 5px;
 }
 
+.postActions{
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+}
+.postActions p{
+    margin: 0;
+    font-weight: bold;
+}
+.postActions .btn{
+    margin-left: 10px;
+}
+
 /* ==========reactionForm========== */
 .reactionFormContainer {
     margin-top: 10px;

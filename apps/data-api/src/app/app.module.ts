@@ -47,7 +47,7 @@ import { environment } from '@dreams/shared/services';
       }
     }),
     Neo4jModule.forRoot({
-      scheme: 'bolt+s',
+      scheme: 'bolt',
       host: environment.neo4j.host,
       port: environment.neo4j.port,
       username: environment.neo4j.user,

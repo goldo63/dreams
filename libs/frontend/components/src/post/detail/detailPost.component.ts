@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { IAccount, IPost, IReaction, IUser } from '@dreams/shared/models';
 import { Observable, Subject, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
@@ -38,7 +38,8 @@ export class DetailPostComponent {
     private postService: PostService, 
     private userService: UserService,
     private authService: AuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -129,6 +130,20 @@ export class DetailPostComponent {
       error => {
         // Handle error if the post couldn't be refreshed
         console.error('Error submitting reaction:', error);
+      }
+    );
+  }
+
+  deletePost(){
+    this.postService.delete(this.postId).subscribe(
+      () => {
+        // Optionally, you can handle a successful response here
+        console.log('Post deleted successfully');
+        this.router.navigate(['/item/post']);
+      },
+      error => {
+        // Handle error if the post couldn't be refreshed
+        console.error('Error deleting post:', error);
       }
     );
   }
