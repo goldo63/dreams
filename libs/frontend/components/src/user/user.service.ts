@@ -42,7 +42,7 @@ export class UserService {
   getReactions(): Observable<IReaction[]> {
     const url = `${this.apiUrl}/post/${this.authService.getAuthIdentifier()?.user.id}/myReactions`;
     console.log(`GET reactions: ${url}`);
-    return this.http.get<ApiResponse<IReaction[]>>(url).pipe(
+    return this.http.get<ApiResponse<unknown[]>>(url).pipe(
       map(response => response.results as IReaction[]),
       catchError(this.handleError)
     );

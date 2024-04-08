@@ -128,7 +128,6 @@ export class PostService {
   }
   
   private findReactionById(reactions: IReaction[], reactionId: string): IReaction | null {
-    this.logger.log(reactions);
     for (const reaction of reactions) {
       if (reaction.id === reactionId) {
         return reaction;
@@ -208,6 +207,20 @@ export class PostService {
     }
   }
 
+  async getPostFromReaction(reactionId: string): Promise<any> {
+    try {
+      const result = await this.neo4jService.read(
+          `MATCH (r:Reaction {id: $reactionId})-[:REACTED_TO]->(p:Post)
+           RETURN p.id AS postId`,
+          { reactionId: reactionId }
+      );
+      return result.records[0].get('postId');
+    } catch (error) {
+      this.logger.error(`Error reading reactions from user: ${error}`);
+      throw error;
+    }
+  }
+
   async getReaction(postId: string, reactionId: string): Promise<IReaction | null> {
     const post = await this.postModel.findOne({ id: postId }).exec();
     if (!post || !post.reactions) return null;
@@ -218,4 +231,44 @@ export class PostService {
     return reaction;
   }
 
+  async deleteReaction(postId: string, reactionId: string): Promise<boolean> {
+    const post = await this.postModel.findOne({ id: postId }).exec();
+    if (!post) {
+        throw new NotFoundException('Post not found');
+    }
+
+    console.log(`Deleting reaction ${reactionId} from post ${postId}`);
+
+    const deleteReactionRecursive = async (reactions: IReaction[]): Promise<boolean> => {
+        for (let i = 0; i < reactions.length; i++) {
+            const currentReaction = reactions[i];
+
+            if (currentReaction.id === reactionId) { // Reaction found, remove it from the array
+                
+                reactions.splice(i, 1);
+
+                post.markModified('reactions');
+                await post.save();
+                return true; 
+            }
+
+            if (currentReaction.reactions && currentReaction.reactions.length > 0) { //if nested continue recursively
+                if (await deleteReactionRecursive(currentReaction.reactions)) {
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    };
+
+    // Call deleteReactionRecursive with the top-level reactions
+    const isDeleted = deleteReactionRecursive(post.reactions as IReaction[]);
+    if (await isDeleted) {
+        return true; // Return true to indicate deletion success
+    } else {
+        throw new NotFoundException('Reaction not found');
+    }
+}
 }

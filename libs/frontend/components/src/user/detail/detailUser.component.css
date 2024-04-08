@@ -93,6 +93,8 @@ h4 {
 }
 
 .reviews li {
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 15px;
   padding: 15px;
   border-radius: 5px;
@@ -103,3 +105,6 @@ h4 {
   margin: 0;
 }
 
+.reviews li a{
+  cursor: pointer;
+}

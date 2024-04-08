@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs'; // Import the `of` function
 import { IAccount, IReaction, IUser } from '@dreams/shared/models';
 import { UserService } from '../user.service';
 import { AccountValidator } from '@dreams/shared/services';
+import { PostService } from '../../post/post.service';
 
 @Component({
   selector: 'dreams-account-detail',
@@ -15,7 +16,10 @@ export class DetailUserComponent implements OnInit {
   userDetails: IUser | undefined;
   reactions$!: Observable<IReaction[]>; // Change the type to Observable<IAccount[] |
 
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private postService: PostService) { }
 
   ngOnInit(): void {
     this.account$ = this.userService.getCurrentUser();
@@ -35,5 +39,10 @@ export class DetailUserComponent implements OnInit {
     this.router.navigate(['/account/edit']);
   }
 
+  deletePost(id: string): void {
+    this.postService.deleteReaction(id).subscribe(() => {
+      this.reactions$ = this.userService.getReactions();
+    })
+  }
   
 }
