@@ -1,26 +1,59 @@
 <div class="post" *ngIf="(post$ | async) as post; else loadingTemplate">
 
-    <div class="media" *ngIf="post.imgUrl || post.videoUrl">
-        <img *ngIf="post.imgUrl" src="{{post.imgUrl}}" alt="mainPostPicture">
-        <video *ngIf="post.videoUrl" controls>
-            <source src="{{post.videoUrl}}" type="video/mp4">
-            Dreams does not support the video tag.
-        </video>
+    <div (click)="toggleMedia()" class="media" *ngIf="post.imgUrl || post.videoUrl">
+      <img *ngIf="post.imgUrl" src="{{post.imgUrl}}" alt="mainPostPicture" >
+      <video *ngIf="post.videoUrl" controls style="display: none;">
+          <source src="{{post.videoUrl}}" type="video/mp4">
+          Dreams does not support the video tag.
+      </video>
+      <div class="multimediaTag">
+        <div class="imgTag active">Image</div>
+        <div class="videoTag">Video</div>
+      </div> 
     </div>
 
-    <ng-container *ngIf="(user$ | async) as user;  else wrongUserTemplate">
-        <ng-container *ngIf="accountValidator.isUser(user.accountDetails);  else wrongUserTemplate">
-            <p [routerLink]='["../../user", user.id]' class="username">U/{{user.username}}</p>
+    <ng-container *ngIf="(user$ | async) as userData; else wrongUserTemplate">
+        <ng-container *ngIf="userData; else wrongUserTemplate">
+            <p class="username">U/{{ userData.username }}</p>
         </ng-container>
-    </ng-container>
-    <ng-template #wrongUserTemplate>
+      </ng-container>
+      <ng-template #wrongUserTemplate>
         <p class="username">U/unknown</p>
-    </ng-template>
-    <h2>{{post.title}}</h2>
+      </ng-template>
+      
+      <h2>{{ post.title }}</h2>
+      
+      <ng-container *ngIf="userMayEdit">
+        <a routerLink="update" class="btn btn-primary">Edit</a>
+      </ng-container>
     <hr>
 
     <div [innerHTML]="post.content"></div>
+    <hr>
 
+    <div class="reactionFormContainer">
+      <button (click)="showReact()" class="btn btn-primary">React</button>
+      <form class="reactionForm" *ngIf="showForm == true" (submit)="react()">
+        <div>
+          <input type="radio" id="positive" name="reviewType" [(ngModel)]="reaction.isPositiveVote" value="true"> <!-- Set the name attribute dynamically -->
+          <label for="positive">Positive Review</label>
+        </div>
+        <div>
+          <input type="radio" id="negative" name="reviewType" [(ngModel)]="reaction.isPositiveVote" value="false"> <!-- Set the name attribute dynamically -->
+          <label for="negative">Negative Review</label>
+        </div>
+        <textarea [(ngModel)]="reaction.Context" name="reactionContent"></textarea>
+        <button type="submit" class="btn btn-primary">Submit Reaction</button>
+      </form>
+    </div>
+
+    <div *ngIf="post.reactions && post.reactions.length > 0">
+      <h4>Reactions:</h4>
+      <app-reactions (reactionSubmitted)="handlePostRefresh()" [postId]="post.id" [reactions]="post.reactions"></app-reactions>
+    </div>
+    <div *ngIf="!post.reactions || post.reactions.length === 0">
+      <p>No reactions here.</p>
+    </div>
     
 </div>
 <ng-template #loadingTemplate>

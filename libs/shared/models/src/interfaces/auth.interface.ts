@@ -1,4 +1,4 @@
-import { IAccount } from "./account.interface";
+import { IAccount, Iidentity } from "./account.interface";
 
 export interface UserCredentials {
     username: string;
@@ -11,4 +11,9 @@ export interface UserRegistration extends UserCredentials {
 
 export interface Token {
     token: string
+}
+
+export interface AuthIdentifier{
+    token: Token;
+    user: Iidentity;
 }

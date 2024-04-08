@@ -1,0 +1,110 @@
+/* Account details */
+.account-details {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+.account-details .username{
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  border: none;
+  cursor: default !important;
+  margin-bottom: 0px;
+}
+
+.account-details .username:hover{
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  border: none;
+  color: #fff !important;
+  text-decoration: none;
+}
+
+.account-details .contact{
+  margin-bottom: 20px;
+}
+.account-details .contact p{
+  margin-bottom: 0px;
+}
+
+.account-details h2 {
+  font-size: 24px;
+  color: #333;
+}
+
+.account-details p {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.account-details button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.account-details button:hover {
+  background-color: #0056b3;
+}
+
+h4 {
+  margin: 0;
+  margin-top: 20px;
+  margin-bottom: 5px;
+  font-size: 20px;
+  color: #333;
+  font-family: 'Fredoka One', cursive;
+}
+
+/* Friends */
+.friends {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.friends ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.friends li {
+  margin-bottom: 10px;
+}
+
+/* Reactions */
+.reviews {
+  margin-bottom: 20px;
+}
+
+.reviews .flex-wrap {
+  padding: 20px;
+  cursor: pointer;
+}
+
+.reviews ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.reviews li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+}
+.reviews li p{
+  margin: 0;
+}
+
+.reviews li a{
+  cursor: pointer;
+}

@@ -12,10 +12,19 @@ export class UserService {
         @InjectModel(UserModel.name) private userModel: Model<UserDocument>,
     ) {}
 
-    async getById(id: number): Promise<IAccount | null> {
-        this.logger.log(`Finding post by id ${id}`);
+    async getById(id: string): Promise<IAccount | null> {
+        this.logger.log(`Finding user by id ${id}`);
     
-        const item = await this.userModel.findOne({ id: +id }).exec();
+        const item = await this.userModel.findOne({ id: id }).exec();
+    
+        if (!item) return null;
+        return item;
+    }
+
+    async getByUsername(username: string): Promise<IAccount | null> {
+        this.logger.log(`Finding user by id ${username}`);
+    
+        const item = await this.userModel.findOne({ username: +username }).exec();
     
         if (!item) return null;
         return item;

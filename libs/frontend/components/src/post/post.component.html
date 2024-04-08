@@ -1,24 +1,18 @@
-<div class="start">  
-    <a [routerLink]="['create']" type="submit" class=" btn btn-primary">create new post</a>
-  </div>
   <div *ngIf="posts$ | async as posts; else loadingTemplate">
     <!-- Check if there are posts -->
     <ng-container *ngIf="posts !== null && posts !== undefined; else noPostsFoundTemplate">
         <!-- Check if posts is an array and has elements -->
         <ng-container *ngIf="posts?.length; else noPostsFoundTemplate">
             <div class="post" *ngFor="let post of posts; let i = index">
-                <div class="flex-wrap">
+                <div [routerLink]="[post.id]" class="flex-wrap">
                     <div class="details">
-                        <p class="username">U/:{{ getUserName( post.posterId ) }}</p>
-                        <h2>{{ post.title}}</h2>
+                        <!-- <p class="username">U/:{{ getUserName( post.posterId ) }}</p> -->
+                        <a  type="submit" class=""><h2>{{ post.title}}</h2></a>
+                        <dreams-tags *ngIf="post.tags" [tags]="post.tags"></dreams-tags>
                     </div>
                     <div class="controls">
-                        <a [routerLink]="[post.id]" type="submit" class="btn btn-primary">Details</a>
-                        <a [routerLink]="[post.id, 'update']" type="submit" class="btn btn-primary">Update</a>
-                        <a type="button" class="btn btn-primary" (click)="onDeletePost(post.id)">Delete post</a>
                     </div>
                 </div>
-                <hr>
             </div>
 
         </ng-container>

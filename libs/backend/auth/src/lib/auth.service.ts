@@ -9,8 +9,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Identity, IdentityDocument } from './identity.schema';
 // eslint-disable-next-line @nx/enforce-module-boundaries
 import { User, UserDocument } from '../../../features/src/lib/user/user.schema';
-import { environment } from '@dreams/shared/services'
-import { IAccount } from '@dreams/shared/models';
+import { AuthIdentifier, IAccount } from '@dreams/shared/models';
+import { environment } from '@dreams/shared/services';
 
 @Injectable()
 export class AuthService {
@@ -24,30 +24,31 @@ export class AuthService {
         account.username = name;
         
         const user = new this.userModel(account, hash);
+
         await user.save();
         return user.id;
-      }
+    }
+
+
 
     async verifyToken(token: string): Promise<string | JwtPayload> {
         return new Promise((resolve, reject) => {
-            verify(token, environment.JWT_SECRET, (err, payload) => {
+            verify(token, environment.jwtSecret as string, (err, payload) => {
                 if (err) reject(err);
                 else resolve(payload as JwtPayload);
             })
         })
     }
 
-    async registerUser(username: string, password: string) {
-        this.logger.log(environment.SALT_ROUNDS);
-        const generatedHash = await hash(password, parseInt(environment.SALT_ROUNDS));
-        this.logger.log(generatedHash);
+    async registerUser(id: string, username: string, password: string) {
+        const generatedHash = await hash(password, environment.saltRounds);
 
-        const identity = new this.identityModel({username, hash: generatedHash});
+        const identity = new this.identityModel({id, username, hash: generatedHash});
 
         await identity.save();
     }
 
-    async generateToken(username: string, password: string): Promise<string> {
+    async generateToken(username: string, password: string): Promise<AuthIdentifier> {
         const identity = await this.identityModel.findOne({ username });
         
         if (!identity) {
@@ -69,13 +70,16 @@ export class AuthService {
         return new Promise((resolve, reject) => {
             sign(
               { username, id: user.id! },
-              environment.JWT_SECRET,
-              (err: any, token: any) => {
+              environment.jwtSecret,
+              async (err: any, token: any) => {
                 if (err) reject(err);
-                else resolve(token);
+                else {
+                    const authIdentifier: AuthIdentifier = { token: { token }, user: { id: user.id, username: user.username } };
+                    resolve(authIdentifier);
+                }
               }
             );
-          });
+        });
 
     }
 }

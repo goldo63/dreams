@@ -2,13 +2,15 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { IAccount, IPost, IReaction, ITags, IUser, ReadAbility } from '@dreams/shared/models';
 import { Post as PostModel, PostDocument } from './post.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { Reaction } from '../postDetails/reaction.schema';
 import { v4 as uuid } from 'uuid';
 import { Neo4jService } from 'nest-neo4j';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class PostService {
+  
   private readonly logger: Logger = new Logger(PostService.name);
 
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -44,17 +46,18 @@ export class PostService {
     return items;
   }
 
-  async create(user_id: string, post: IPost): Promise<IPost | null> {
-    if (post && user_id) {
+  async create(post: IPost): Promise<IPost | null> {
+    post.id = uuid();
+    if (post) {
       this.logger.log(`Create post ${post.title}`);
       return this.postModel.create(post);
     }
     return null;
   }
 
-  async update(_id: string, post: IPost): Promise<IPost | null> {
+  async update(post: IPost): Promise<IPost | null> {
     this.logger.log(`Update post ${post.title}`);
-    return this.postModel.findByIdAndUpdate({ _id }, post);
+    return this.postModel.findOneAndUpdate({ id: post.id }, post);
   }
 
   async deleteById(id: string): Promise<{ deletedCount: number }> {
@@ -125,7 +128,6 @@ export class PostService {
   }
   
   private findReactionById(reactions: IReaction[], reactionId: string): IReaction | null {
-    this.logger.log(reactions);
     for (const reaction of reactions) {
       if (reaction.id === reactionId) {
         return reaction;
@@ -190,15 +192,83 @@ export class PostService {
   async getReactionsFromUser(userId: string): Promise<any[]> {
     try {
         const result = await this.neo4jService.read(
-            `MATCH (u:User {id: $userId})-[:REACTED]->(r:Reaction)
-             RETURN r`,
+            `MATCH (u:User {id: $userId})-[:REACTED]->(r:Reaction)-[:REACTED_TO]->(p:Post)
+             RETURN r, p.id AS postId`,
             { userId: userId }
         );
 
-        return result.records.map(record => record.get('r').properties);
+        return result.records.map(record => ({
+            reactionId: record.get('r').properties.id,
+            postId: record.get('postId')
+        }));
     } catch (error) {
         this.logger.error(`Error reading reactions from user: ${error}`);
         throw error;
+    }
+  }
+
+  async getPostFromReaction(reactionId: string): Promise<any> {
+    try {
+      const result = await this.neo4jService.read(
+          `MATCH (r:Reaction {id: $reactionId})-[:REACTED_TO]->(p:Post)
+           RETURN p.id AS postId`,
+          { reactionId: reactionId }
+      );
+      return result.records[0].get('postId');
+    } catch (error) {
+      this.logger.error(`Error reading reactions from user: ${error}`);
+      throw error;
+    }
+  }
+
+  async getReaction(postId: string, reactionId: string): Promise<IReaction | null> {
+    const post = await this.postModel.findOne({ id: postId }).exec();
+    if (!post || !post.reactions) return null;
+
+    const reaction = this.findReactionById(post.reactions, reactionId) as IReaction;
+    if(!reaction) return null;
+
+    return reaction;
+  }
+
+  async deleteReaction(postId: string, reactionId: string): Promise<boolean> {
+    const post = await this.postModel.findOne({ id: postId }).exec();
+    if (!post) {
+        throw new NotFoundException('Post not found');
+    }
+
+    console.log(`Deleting reaction ${reactionId} from post ${postId}`);
+
+    const deleteReactionRecursive = async (reactions: IReaction[]): Promise<boolean> => {
+        for (let i = 0; i < reactions.length; i++) {
+            const currentReaction = reactions[i];
+
+            if (currentReaction.id === reactionId) { // Reaction found, remove it from the array
+                
+                reactions.splice(i, 1);
+
+                post.markModified('reactions');
+                await post.save();
+                return true; 
+            }
+
+            if (currentReaction.reactions && currentReaction.reactions.length > 0) { //if nested continue recursively
+                if (await deleteReactionRecursive(currentReaction.reactions)) {
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    };
+
+    // Call deleteReactionRecursive with the top-level reactions
+    const isDeleted = deleteReactionRecursive(post.reactions as IReaction[]);
+    if (await isDeleted) {
+        return true; // Return true to indicate deletion success
+    } else {
+        throw new NotFoundException('Reaction not found');
     }
 }
 }

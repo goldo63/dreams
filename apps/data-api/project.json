@@ -20,12 +20,7 @@
       },
       "configurations": {
         "development": {
-          "fileReplacements": [
-            {
-                "replace": "libs/shared/services/src/env/environment.ts",
-                "with": "libs/shared/services/src/env/environment.development.ts"
-            }
-        ]
+
         },
         "production": {
           "fileReplacements": [

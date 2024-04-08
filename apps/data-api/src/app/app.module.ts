@@ -2,10 +2,11 @@ import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
 import { FeatureModule } from '@dreams/backend/features';
 import { AppController } from './app.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { environment } from '@dreams/shared/services';
 import { TokenMiddleware, AuthModule } from '@dreams/backend/auth';
 import { RouterModule } from '@nestjs/core';
 import { Neo4jModule } from 'nest-neo4j';
+import { environment } from '@dreams/shared/services';
+
 
 @Module({
   imports: [
@@ -21,18 +22,18 @@ import { Neo4jModule } from 'nest-neo4j';
         module: FeatureModule,
       },
     ]),
-    MongooseModule.forRoot(environment.MONGO_DB_CONNECTION_STRING, {
+    MongooseModule.forRoot(environment.mongoDBConnectionString, {
       connectionFactory: (connection) => {
           connection.on('connected', () => {
               // console.log('is connected');
               Logger.verbose(
-                  `Mongoose db connected to ${environment.MONGO_DB_CONNECTION_STRING}`
+                  `Mongoose db connected to ${environment.mongoDBConnectionString}`
               );
           });
 
           connection.on('error', (error) => {
             Logger.error(
-              `An error occurred while connecting to ${environment.MONGO_DB_CONNECTION_STRING}`
+              `An error occurred while connecting to ${environment.mongoDBConnectionString}`
             );
           });
   
@@ -46,11 +47,11 @@ import { Neo4jModule } from 'nest-neo4j';
     }),
     Neo4jModule.forRoot({
       scheme: 'bolt',
-      host: 'localhost',
-      port: 7687,
-      username: 'neo4j',
-      password: 'Goldo123',
-      database: 'dreams',
+      host: environment.neo4j.host,
+      port: environment.neo4j.port,
+      username: environment.neo4j.user,
+      password: environment.neo4j.password,
+      database: environment.neo4j.database,
     }),
   ],
   controllers: [AppController],

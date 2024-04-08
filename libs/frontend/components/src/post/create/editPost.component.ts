@@ -5,6 +5,7 @@ import { PostService } from '../post.service';
 import { switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { QuillModule } from 'ngx-quill';
+import { AuthService } from '@dreams/frontend/uiAuth';
 
 @Component({
   selector: 'dreams-edit-post',
@@ -23,8 +24,8 @@ export class EditPostComponent implements OnInit {
     ],
   };
   post: IPost = {
-    id: 0,
-    posterId: 0, // Assuming posterId is of type number, please adjust accordingly
+    id: '0',
+    posterId: '0', // Assuming posterId is of type number, please adjust accordingly
     postDate: new Date(),
     title: '',
     imgUrl: '',
@@ -40,6 +41,7 @@ export class EditPostComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private postService: PostService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
@@ -49,7 +51,7 @@ export class EditPostComponent implements OnInit {
         switchMap((params) => {
           if (params.get('id')) {
             this.updatingPost = true;
-            return this.postService.getById(parseInt(params.get('id') as string));
+            return this.postService.getById(params.get('id'));
           } else {
             this.updatingPost = false;
             return of(this.post);
@@ -69,6 +71,12 @@ export class EditPostComponent implements OnInit {
         this.router.navigate(['item/post']);
       });
     } else {
+     
+      //sets the post's posterId to the current user's id
+      const UserIdentity = this.authService.getAuthIdentifier();
+      if(UserIdentity == null) throw new Error('User not authenticated');
+      else this.post.posterId = UserIdentity.user.id;
+      
       this.postService.create(this.post).subscribe((result) => {
         console.log('Result: ' + JSON.stringify(result));
         this.router.navigate(['item/post']);
