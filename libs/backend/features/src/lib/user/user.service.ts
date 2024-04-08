@@ -21,6 +21,13 @@ export class UserService {
         return item;
     }
 
+    async updateById(id: string, user: IAccount): Promise<IAccount | null> {
+        this.logger.log(`Updating user by id ${id}`);
+        const item = await this.userModel.findOneAndUpdate({ id: id }, user).exec();
+
+        return item;
+    }
+
     async getByUsername(username: string): Promise<IAccount | null> {
         this.logger.log(`Finding user by id ${username}`);
     

@@ -13,10 +13,11 @@ import { EditPostComponent } from './post/create/editPost.component';
 import { DetailPostComponent } from './post/detail/detailPost.component';
 import { ReactionsComponent } from './post/detail/reactions/reactions.component';
 import { TagsComponent } from './post/tags/tags.component';
+import { RegisterComponent } from '@dreams/frontend/uiAuth';
 
 const componentRoute: Routes = [
   { path: 'user', component: DetailUserComponent },
-  { path: 'user/update', component: EditUserComponent },
+  { path: 'user/update', component: RegisterComponent },
 
   { path: 'post', component: PostComponent },
   { path: 'post/create', component: EditPostComponent },

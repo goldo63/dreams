@@ -34,9 +34,9 @@ export class UserService {
     );
   }
 
-  updateUser(user: UserRegistration): Observable<UserRegistration> {
+  updateUser(user: UserRegistration): Observable<IAccount> {
     // Implement logic to update user data on the server
-    return this.http.put<UserRegistration>(`${this.apiUrl}/user/${user.account.id}`, user);
+    return this.http.put<IAccount>(`${this.apiUrl}/user/${user.account.id}`, user.account);
   }
 
   getReactions(): Observable<IReaction[]> {
