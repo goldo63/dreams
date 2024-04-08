@@ -16,7 +16,7 @@ import { IPost, IReaction, ITags } from '@dreams/shared/models';
 import {
   InjectToken,
   Token,
-} from '../../../../auth/src/lib/token/token.decorator';
+} from '@dreams/backend/auth';
 import { Reaction } from '../postDetails/reaction.schema';
 
 @Controller('post')
