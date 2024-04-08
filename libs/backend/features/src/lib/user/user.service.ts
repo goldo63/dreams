@@ -37,16 +37,19 @@ export class UserService {
         return item;
     }
 
-    async addFriend(userId: number, friendId: number): Promise<IAccount | null> {
+    async addFriend(userId: string, friendId: string): Promise<IAccount | null> {
         this.logger.log(`Adding friend ${userId} to ${friendId}`);
 
         const user = await this.userModel.findOne({ id: userId }).exec();
         const friend = await this.userModel.findOne({ id: friendId }).exec();
 
         if (!user ||!friend) return null;
+
         if( !AccountValidator.isUser(user.accountDetails) ) throw new HttpException('Found user is a company', HttpStatus.BAD_REQUEST,);
+        if (user.accountDetails.friends.some(f => f.id === friendId)) throw new HttpException('User already has this friend', HttpStatus.BAD_REQUEST);
 
         user.accountDetails.friends.push(friend);
+
 
         user.markModified('accountDetails');
     

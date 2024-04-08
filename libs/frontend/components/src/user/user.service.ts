@@ -39,6 +39,14 @@ export class UserService {
     return this.http.put<IAccount>(`${this.apiUrl}/user/${user.account.id}`, user.account);
   }
 
+  addFriend(friend: IAccount): Observable<IAccount> | null {
+    const url = `${this.apiUrl}/user/${this.authService.getAuthIdentifier()?.user.id}/friends/${friend.id}`;
+    if (this.authService.getAuthIdentifier()?.user.id === friend.id) {
+      return null;
+    }
+    return this.http.post<IAccount>(url, friend);
+  }
+
   getReactions(): Observable<IReaction[]> {
     const url = `${this.apiUrl}/post/${this.authService.getAuthIdentifier()?.user.id}/myReactions`;
     console.log(`GET reactions: ${url}`);

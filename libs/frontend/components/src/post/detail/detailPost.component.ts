@@ -147,4 +147,21 @@ export class DetailPostComponent {
       }
     );
   }
+
+  addFriend(){
+    
+    this.user$?.subscribe( user => {
+      this.userService.addFriend(user)?.subscribe(
+        () => {
+          // Optionally, you can handle a successful response here
+          console.log('Friend added successfully');
+          this.handlePostRefresh();
+        },
+        error => {
+          // Handle error if the post couldn't be refreshed
+          console.error('Error adding friend:', error);
+        }
+      );
+  })
+  }
 }

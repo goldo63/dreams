@@ -18,7 +18,7 @@
       <button class="btn btn-primary" (click)="deletePost()">Delete</button>
     </div>
     <ng-container *ngIf="userData; else wrongUserTemplate">
-      <p class="username">U/{{ userData.username }}</p>
+      <p (click)="addFriend()" class="username">U/{{ userData.username }}</p>
     </ng-container>
   </ng-container>
   <ng-template #wrongUserTemplate>
