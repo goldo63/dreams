@@ -5,7 +5,9 @@ import { AppRoutingModule } from './app.routes';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+// eslint-disable-next-line @nx/enforce-module-boundaries
+import { AuthInterceptor } from '@dreams/frontend/uiAuth';
 
 import { UiModule } from '@dreams/frontend/ui'
 @NgModule({
@@ -21,7 +23,7 @@ import { UiModule } from '@dreams/frontend/ui'
     HttpClientModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

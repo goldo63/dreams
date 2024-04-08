@@ -12,6 +12,11 @@ const routes: Routes = [
       (module) => module.ComponentModule
     )
   },
+  { path: 'auth', loadChildren: () => 
+    import ('@dreams/frontend/uiAuth').then(
+      (module) => module.AuthModule
+    ) 
+  }
 ];
 
 @NgModule({

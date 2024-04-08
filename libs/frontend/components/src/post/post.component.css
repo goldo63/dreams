@@ -6,11 +6,44 @@
     margin-bottom: 20px;
 }
 
-.post .flex-wrap{
+/* Container for each post */
+.post {
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  .post:hover {
+    background-color: #e3e3e3;
+  }
+  
+  .post .flex-wrap{
+    padding: 20px;
+    cursor: pointer;
+  }
+
+  .post h2 {
+    margin: 0;
+    font-size: 20px;
+    color: #333;
+    font-family: 'Fredoka One', cursive;
+  }
+
+  
+  /* Container for post details */
+  .details {
     display: flex;
     justify-content: space-between;
-}
-.post .flex-wrap .controls{
+    align-items: center;
+  }
+  .details a{
+    text-decoration: none;
+  }
+  
+  
+  /* Controls container */
+  .controls {
     display: flex;
-    align-items: flex-end;
-}
+    align-items: center;
+  }
+  

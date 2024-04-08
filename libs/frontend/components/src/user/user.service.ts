@@ -1,151 +1,56 @@
 import { Injectable } from '@angular/core';
-import { IAccount, ICompany, IUser } from '@dreams/shared/models';
-import { AccountValidator } from '@dreams/shared/services';
-import { BehaviorSubject, Observable, catchError, delay, filter, from, map, of, take } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, catchError, map, throwError } from 'rxjs';
+import { ApiResponse, IAccount, IReaction, IUser, UserRegistration } from '@dreams/shared/models';
+import { AccountValidator, environment } from '@dreams/shared/services';
+import { AuthService } from '@dreams/frontend/uiAuth';
 
 @Injectable({
-    providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserService {
-    private users: IAccount[] = [
-        {
-          id: 0,
-          phoneNumber: '123',
-          dateOfRegistration: new Date(),
-          password: 'password',
-          accountDetails: {
-            email: 'tim@example.com',
-            username: 'tim',
-            firstName: 'Tim',
-            lastName: 'Smith',
-          },
-        },
-        {
-          id: 1,
-          phoneNumber: '123',
-          dateOfRegistration: new Date(),
-          password: 'password',
-          accountDetails: {
-            email: 'jane@example.com',
-            username: 'jane',
-            firstName: 'Jane',
-            lastName: 'Doe',
-          },
-        },
-        {
-          id: 2,
-          phoneNumber: '123',
-          dateOfRegistration: new Date(),
-          password: 'password',
-          accountDetails: {
-            email: 'john@example.com',
-            username: 'john',
-            firstName: 'John',
-            lastName: 'Doe',
-          },
-        },
-        {
-          id: 3,
-          phoneNumber: '123',
-          dateOfRegistration: new Date(),
-          password: 'password',
-          accountDetails: {
-            email: 'emma@example.com',
-            username: 'emma',
-            firstName: 'Emma',
-            lastName: 'Johnson',
-          },
-        },
-        {
-          id: 4,
-          phoneNumber: '123',
-          dateOfRegistration: new Date(),
-          password: 'password',
-          accountDetails: {
-            email: 'alex@example.com',
-            username: 'alex',
-            firstName: 'Alex',
-            lastName: 'Wilson',
-          },
-        },
-        {
-          id: 5,
-          phoneNumber: '123',
-          dateOfRegistration: new Date(),
-          password: 'password',
-          accountDetails: {
-            organisationCode: 'org1',
-            name: 'Company A',
-            verified: false,
-          },
-        },
-        {
-          id: 6,
-          phoneNumber: '123',
-          dateOfRegistration: new Date(),
-          password: 'password',
-          accountDetails: {
-            organisationCode: 'org2',
-            name: 'Company B',
-            verified: true,
-          },
-        },
-      ];
+  private apiUrl = environment.apiURL + '/data';
 
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    constructor() {}
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService) { }
 
-    getAll(): Observable<IAccount[]> {
-        return of(this.users.filter((user) => AccountValidator.isUser(user.accountDetails)));
-    }
+  getCurrentUser(): Observable<IAccount> {
+    const id = this.authService.getAuthIdentifier()?.user.id;
+    const url = `${this.apiUrl}/user/${id}`;
+    console.log(`GET user by ID: ${url}`);
+    return this.http.get<ApiResponse<IAccount>>(url).pipe(
+      map(response => response.results as IAccount),
+      catchError(this.handleError)
+    );
+  }
 
-    getById(id: number): Observable<IAccount> {
-        return from(this.users).pipe(
-            filter((user) => AccountValidator.isUser(user.accountDetails)),
-            filter((user) => user.id === id),
-            take(1)
-        )
-    }
+  getById(id: string): Observable<IAccount> {
+    const url = `${this.apiUrl}/user/${id}`;
+    console.log(`GET user by ID: ${url}`);
+    return this.http.get<ApiResponse<IAccount>>(url).pipe(
+      map(response => response.results as IAccount),
+      catchError(this.handleError)
+    );
+  }
 
-    create(user: IAccount): Observable<IAccount[]> {
-        console.log('creating user');
-        return of(user).pipe(
-          map((newUser: IAccount) => {
-            this.users.push(newUser);
-            return this.users;
-          })
-        );
-    }
+  updateUser(user: UserRegistration): Observable<UserRegistration> {
+    // Implement logic to update user data on the server
+    return this.http.put<UserRegistration>(`${this.apiUrl}/user/${user.account.id}`, user);
+  }
 
-    update(user: IAccount): Observable<IAccount[]> {
-        console.log('updating user');
-        return of(user).pipe(
-          map((updatedUser: IAccount) => {
-            const index = this.users.findIndex(u => u.id === updatedUser.id);
-            if (index !== -1) {
-              this.users[index] = updatedUser;
-            }
-      
-            // Return the updated array
-            return this.users;
-          })
-        );
-    }
+  getReactions(): Observable<IReaction[]> {
+    const url = `${this.apiUrl}/post/${this.authService.getAuthIdentifier()?.user.id}/myReactions`;
+    console.log(`GET reactions: ${url}`);
+    return this.http.get<ApiResponse<unknown[]>>(url).pipe(
+      map(response => response.results as IReaction[]),
+      catchError(this.handleError)
+    );
+  }
 
-    delete(id: number): Observable<IAccount[]> {
-        return of(id).pipe(
-          map((deleteId: number) => {
-            const index = this.users.findIndex(user => user.id === deleteId);
-      
-            if (index !== -1) {
-              this.users.splice(index, 1);
-            }
-            else {
-                console.log(`User with id ${deleteId} not found.`);
-            }
-      
-            return this.users.filter((user) => AccountValidator.isUser(user.accountDetails));
-          }),
-        );
-      }
+  private handleError(error: any): Observable<never> {
+    //console.error('Error occurred:', error);
+
+    return throwError(() => new Error(error.message));
+  }
 }

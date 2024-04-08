@@ -3,12 +3,27 @@
       <button class="topButton" routerLink="about" ngbNavLink>About</button>
     </li>
     <li ngbDropdown class="nav-item" role="presentation">
-		<button type="button" class="topButton nav-link" ngbDropdownToggle>Items</button>
+		<button type="button" class="topButton nav-link" ngbDropdownToggle>posts</button>
 		<div ngbDropdownMenu>
-			<button routerLink="item/user" ngbDropdownItem>Users</button>
-            <button ngbDropdownItem>Companies</button>
-			<div class="dropdown-divider"></div>
 			<button routerLink="item/post" ngbDropdownItem>Posts</button>
+			<div class="dropdown-divider"></div>
+			<button routerLink="item/post/create" ngbDropdownItem>New Post</button>
+		</div>
+	</li>
+	<li ngbDropdown *ngIf="user" class="nav-item" role="presentation">
+		<button type="button" class="topButton nav-link" ngbDropdownToggle>User</button>
+		<div ngbDropdownMenu>
+			<button routerLink="item/user" ngbDropdownItem>details</button>
+			<div class="dropdown-divider"></div>
+            <button (click)="logout()" ngbDropdownItem>logout</button>
+		</div>
+	</li>
+	<li ngbDropdown *ngIf="!user" class="nav-item" role="presentation">
+		<button type="button" class="topButton nav-link" ngbDropdownToggle>Login</button>
+		<div ngbDropdownMenu>
+			<button routerLink="auth/login" ngbDropdownItem>Login</button>
+			<div class="dropdown-divider"></div>
+            <button routerLink="auth/register" ngbDropdownItem>Register</button>
 		</div>
 	</li>
 </ul>

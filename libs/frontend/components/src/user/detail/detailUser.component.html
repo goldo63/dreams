@@ -1,18 +1,50 @@
-<p>detailUser works!</p>
+<div class="account-details" *ngIf="(account$ | async) as accountData; else loadingTemplate">
+  <h2>Account details of {{ userDetails?.firstName }} {{ userDetails?.lastName }}</h2>
+  <p class="btn btn-primary username">U/{{ accountData.username }}</p>
+  
+  <div class="contact">
+    <h4>contact:</h4>
+    <p>Email: {{ userDetails?.email }}</p>
+    <p>phoneNumber: {{ accountData.phoneNumber }}</p>
+  </div>
 
-<!-- detail-user.component.html -->
-<div *ngIf="(user$ | async) as user; else loadingTemplate">
-    <ng-container *ngIf="accountValidator.isUser(user.accountDetails); else noAccountDetailsTemplate">
-      <h2>{{ user.accountDetails.username }}</h2>
-      <p>Email: {{ user.accountDetails.email }}</p>
-      <p>First Name: {{ user.accountDetails.firstName }}</p>
-      <p>Last Name: {{ user.accountDetails.lastName }}</p>
-      <!-- Add other user properties as needed -->
-    </ng-container>
-    <ng-template #noAccountDetailsTemplate>
-      <h2>No Account Details</h2>
+  <button class="btn btn-primary" (click)="editAccount()">Edit Account</button>
+
+  <hr>
+
+  <ng-container *ngIf="userDetails">
+    <h4>Friends:</h4>
+    <div class="friends" *ngIf="userDetails.friends && userDetails.friends.length > 0; else noFriends">
+      
+      <ul>
+        <li *ngFor="let friend of userDetails.friends">
+          <p>{{ friend.username }}</p>
+          <p>{{ friend.phoneNumber}}</p>
+          <!-- You can display other friend details here -->
+        </li>
+      </ul>
+    </div>
+    <ng-template #noFriends>
+      <p>No friends found.</p>
     </ng-template>
+  </ng-container>
+
+  <hr>
+  
+  <div class="reviews">
+    <h4>Reviews:</h4>
+    <ul class="reviewList">
+      <li *ngFor="let reaction of reactions$ | async">
+        <p>{{ reaction.Context }}</p>
+        <div class="controls">
+          <a (click)="deletePost(reaction.id)" class="delete">delete</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+
 </div>
+
 <ng-template #loadingTemplate>
   <h2>Loading...</h2>
 </ng-template>
