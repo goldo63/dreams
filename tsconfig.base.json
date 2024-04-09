@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@avans-nx-workshop/backend/auth": ["libs/backend/auth/src/index.ts"],
+      // "@avans-nx-workshop/backend/auth": ["libs/backend/auth/src/index.ts"],
       "@dreams/backend/auth": ["libs/backend/auth/src/index.ts"],
       "@dreams/backend/dto": ["libs/backend/dto/src/index.ts"],
       "@dreams/backend/features": ["libs/backend/features/src/index.ts"],
