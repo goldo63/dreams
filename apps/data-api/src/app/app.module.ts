@@ -1,5 +1,4 @@
 import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config'; // Add this line
 import { FeatureModule } from '@dreams/backend/features';
 import { AppController } from './app.controller';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -10,7 +9,6 @@ import { environment } from '@dreams/shared/services';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(), // Add this line
     AuthModule,
     FeatureModule,
     RouterModule.register([
