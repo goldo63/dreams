@@ -27,6 +27,28 @@
 
   <h2>{{ post.title }}</h2>
 
+  <div class="tags">
+    <div class="tag-wrap">
+      <dreams-tags *ngIf="post.tags" [tags]="post.tags" (tagClicked)="deleteTag($event)"></dreams-tags>
+      <ng-container *ngIf="userMayEdit">
+        <button (click)="showTagForm()" class="btn btn-primary">+</button>
+        <button *ngIf="unsavedTags" (click)="saveTags()" class="btn btn-primary">Save</button>
+      </ng-container>
+    </div>
+
+    <form class="tagsForm" *ngIf="showFormTags" (ngSubmit)="changeTags()">
+      <div class="form-group">
+        <label for="tagName">Tag Name:</label>
+        <input type="text" id="tagName" name="tagName" class="form-control" [(ngModel)]="tag.name" required>
+      </div>
+      <div class="form-group">
+        <label for="tagColor">Tag Color:</label>
+        <input type="text" id="tagColor" name="tagColor" class="form-control" [(ngModel)]="tag.color" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+  </div>
+
   <hr>
 
   <div [innerHTML]="post.content"></div>

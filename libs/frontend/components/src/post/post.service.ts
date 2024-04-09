@@ -4,6 +4,7 @@ import {
   ReadAbility,
   ApiResponse,
   IReaction,
+  ITags,
 } from '@dreams/shared/models';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
@@ -125,5 +126,10 @@ export class PostService {
     //console.error('Error occurred:', error);
 
     return throwError(() => new Error(error.message));
+  }
+
+  addTags(postId: string, tags: ITags[]): Observable<ITags[]> {
+    const url = `${this.endpoint}/${postId}/tags`;
+    return this.http.post<ITags[]>(url, tags).pipe(catchError(this.handleError));
   }
 }

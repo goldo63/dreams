@@ -10,6 +10,9 @@ import mongoose from 'mongoose';
 
 @Injectable()
 export class PostService {
+  addTags(postId: string, tags: ITags[]) {
+    throw new Error('Method not implemented.');
+  }
   
   private readonly logger: Logger = new Logger(PostService.name);
 
@@ -70,7 +73,7 @@ export class PostService {
   }
 
   async setTags(postId: string, tags: ITags[]): Promise<IPost | null> {
-    const post = await this.postModel.findOne({ id: +postId }).exec();
+    const post = await this.postModel.findOne({ id: postId }).exec();
     if(post == null) return null;
 
     this.logger.log(`Setting tags of values ${tags.forEach(tag => tag.name)}`);

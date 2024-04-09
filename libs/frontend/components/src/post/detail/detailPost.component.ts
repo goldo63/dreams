@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { IAccount, IPost, IReaction, IUser } from '@dreams/shared/models';
+import { IAccount, IPost, IReaction, ITags, IUser } from '@dreams/shared/models';
 import { Observable, Subject, of } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { UserService } from '../../user/user.service';
@@ -16,10 +16,13 @@ export class DetailPostComponent {
   post$: Observable<IPost> | null = null;
   user$: Observable<IAccount> | null = null;
 
+  //extra details
+  userMayEdit = false;
   accountDetails: IAccount | undefined;
   userDetails: IUser | undefined;
   postId = '';
 
+  //reactions
   showForm = false;
   reaction: IReaction = {
     id: '0',
@@ -29,7 +32,15 @@ export class DetailPostComponent {
     reactions: undefined
   };
 
-  userMayEdit = false;
+  //tags
+  showFormTags = false;
+  unsavedTags = false;
+  tag: ITags = {
+    name: '',
+    color: ''
+  }
+
+  
 
   // Subject for emitting event when a reaction is submitted
   reactionSubmitted$: Subject<void> = new Subject<void>();
@@ -39,7 +50,8 @@ export class DetailPostComponent {
     private userService: UserService,
     private authService: AuthService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +73,7 @@ export class DetailPostComponent {
     return JSON.stringify(obj);
   }
 
+  //=====Handle Post=====
   private handlePost(params: ParamMap): Observable<IPost> {
     this.postId = params.get('id') as string;
     return this.postService.getById(this.postId).pipe(
@@ -89,6 +102,21 @@ export class DetailPostComponent {
     );
   }
 
+  deletePost(){
+    this.postService.delete(this.postId).subscribe(
+      () => {
+        // Optionally, you can handle a successful response here
+        console.log('Post deleted successfully');
+        this.router.navigate(['/item/post']);
+      },
+      error => {
+        // Handle error if the post couldn't be refreshed
+        console.error('Error deleting post:', error);
+      }
+    );
+  }
+
+  //=====handle reactions=====
   toggleMedia() {
     const imgElement = document.querySelector('.media img') as HTMLImageElement;
     const videoElement = document.querySelector('.media video') as HTMLVideoElement;
@@ -115,6 +143,7 @@ export class DetailPostComponent {
     }
   }
 
+  
   showReact() {
     this.showForm =!this.showForm;
   }
@@ -134,22 +163,8 @@ export class DetailPostComponent {
     );
   }
 
-  deletePost(){
-    this.postService.delete(this.postId).subscribe(
-      () => {
-        // Optionally, you can handle a successful response here
-        console.log('Post deleted successfully');
-        this.router.navigate(['/item/post']);
-      },
-      error => {
-        // Handle error if the post couldn't be refreshed
-        console.error('Error deleting post:', error);
-      }
-    );
-  }
-
+  //=====handle friends=====
   addFriend(){
-    
     this.user$?.subscribe( user => {
       this.userService.addFriend(user)?.subscribe(
         () => {
@@ -161,7 +176,65 @@ export class DetailPostComponent {
           // Handle error if the post couldn't be refreshed
           console.error('Error adding friend:', error);
         }
+    );
+    })
+  }
+
+  //handle tags=====
+  showTagForm(){
+    this.showFormTags =!this.showFormTags;
+  }
+
+  saveTags(){
+    this.post$?.subscribe(post => {
+      this.postService.addTags(this.postId, post.tags as unknown as ITags[]).subscribe(
+        () => {
+          // Optionally, you can handle a successful response here
+          console.log('Tag changed successfully');
+          this.handlePostRefresh();
+          this.unsavedTags = false;
+        },
+        error => {
+          // Handle error if the post couldn't be refreshed
+          console.error('Error changing tag:', error.message);
+        }
       );
-  })
+    })
+  }
+
+  changeTags(){
+    if(!this.post$) return;
+    this.post$.subscribe(post => {
+      if (post.tags) {
+        // Create a new tag object with the same properties
+        const newTag: ITags = { name: this.tag.name, color: this.tag.color };
+        post.tags.push(newTag);
+        this.post$ = of(post); // Update the post$ observable
+        this.unsavedTags = true;
+        this.resetTagForm();
+      }
+    });
+  }
+
+  deleteTag(tag: ITags){
+    if(!this.post$) return;
+    this.post$.pipe(
+      tap(post => {
+        if (post.tags) {
+          const updatedTags = post.tags.filter(t => t.name !== tag.name || t.color !== tag.color);
+          post.tags = updatedTags;
+          this.post$ = of(post); // Update the post$ observable
+          this.unsavedTags = true;
+          this.resetTagForm();
+          //this.cdr.detectChanges(); // Trigger change detection
+        }
+      })
+    ).subscribe();
+  }
+
+  resetTagForm(){
+    this.tag.name = '';
+    this.tag.color = '';
+    this.showFormTags = false;
   }
 }

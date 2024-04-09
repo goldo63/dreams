@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ITags } from '@dreams/shared/models';
 
 @Component({
@@ -8,5 +8,9 @@ import { ITags } from '@dreams/shared/models';
 })
 export class TagsComponent {
   @Input() tags: ITags[] = [];
+  @Output() tagClicked: EventEmitter<ITags> = new EventEmitter<ITags>();
 
+  onTagClicked(tag: ITags): void {
+    this.tagClicked.emit(tag);
+  }
 }
