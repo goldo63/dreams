@@ -5,7 +5,7 @@ import { AppController } from './app.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TokenMiddleware, AuthModule } from '@dreams/backend/auth';
 import { RouterModule } from '@nestjs/core';
-import { Neo4jModule } from 'nest-neo4j';
+import { Neo4jModule, Neo4jScheme } from 'nest-neo4j';
 import { environment } from '@dreams/shared/services';
 
 @Module({
@@ -47,7 +47,7 @@ import { environment } from '@dreams/shared/services';
       }
     }),
     Neo4jModule.forRoot({
-      scheme: 'bolt+s',
+      scheme: environment.neo4j.scheme,
       host: environment.neo4j.host,
       port: environment.neo4j.port,
       username: environment.neo4j.user,
