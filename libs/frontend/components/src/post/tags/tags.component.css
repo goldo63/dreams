@@ -1,7 +1,6 @@
 .tags {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
     align-items: center;
   }
   
@@ -12,4 +11,5 @@
     color: white;
     font-size: 14px;
     font-weight: 600;
+    cursor: not-allowed;
   }

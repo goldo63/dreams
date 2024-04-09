@@ -5,7 +5,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { QuillModule } from 'ngx-quill';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { EditUserComponent } from './user/edit/editUser.component';
 import { DetailUserComponent } from './user/detail/detailUser.component';
 
 import { PostComponent } from './post/post.component';
@@ -13,10 +12,11 @@ import { EditPostComponent } from './post/create/editPost.component';
 import { DetailPostComponent } from './post/detail/detailPost.component';
 import { ReactionsComponent } from './post/detail/reactions/reactions.component';
 import { TagsComponent } from './post/tags/tags.component';
+import { RegisterComponent } from '@dreams/frontend/uiAuth';
 
 const componentRoute: Routes = [
   { path: 'user', component: DetailUserComponent },
-  { path: 'user/update', component: EditUserComponent },
+  { path: 'user/update', component: RegisterComponent },
 
   { path: 'post', component: PostComponent },
   { path: 'post/create', component: EditPostComponent },
@@ -26,7 +26,6 @@ const componentRoute: Routes = [
 
 @NgModule({
   declarations: [
-    EditUserComponent,
     DetailUserComponent,
     PostComponent,
     EditPostComponent,

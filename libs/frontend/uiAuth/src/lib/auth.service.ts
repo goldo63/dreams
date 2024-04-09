@@ -42,6 +42,15 @@ export class AuthService {
       );
   }
 
+  update(formData: UserRegistration): Observable<boolean> {
+    return this.http
+     .put<UserRegistration>(`${this.apiUrl}/user/${formData.account.id}`, formData, this.httpOptions)
+     .pipe(
+        map((data: any) => data.results),
+        catchError(this.handleError)
+      );
+  }
+
   register(userData: UserRegistration): Observable<UserRegistration | undefined> {
 
     return this.http
