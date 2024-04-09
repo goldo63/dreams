@@ -75,6 +75,7 @@ export class PostController {
     @Res() res: Response,
     @Body() tags: ITags[]
   ): Promise<void> {
+    this.logger.log(`Adding tags to post ${id}`);
     const result = this.postService.setTags(id, tags);
 
     if (result == null)
@@ -163,6 +164,6 @@ export class PostController {
     (res as any)
       .status(200)
       .json({ message: `Reaction by id of ${reactionId} deleted successfully` });
-  }
+  } 
 }
 

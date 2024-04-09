@@ -45,6 +45,19 @@
     border-radius: 5px;
 }
 
+.postActions{
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+}
+.postActions p{
+    margin: 0;
+    font-weight: bold;
+}
+.postActions .btn{
+    margin-left: 10px;
+}
+
 /* ==========reactionForm========== */
 .reactionFormContainer {
     margin-top: 10px;
@@ -86,16 +99,23 @@ h2 {
     color: #333;
 }
 
-hr {
-    margin: 20px 0;
-    border: none;
-    border-top: 1px solid #ddd;
+.tag-wrap{
+    display: flex;
+    align-items: center;
+
 }
 
-p {
-    font-size: 16px;
-    color: #555;
-    line-height: 1.6;
+.tag-wrap .btn{
+    padding: 5px 10px;
+    font-size: 14px;
+    margin-right: 10px;
+}
+.tagsForm{
+    margin-top: 20px;
+}
+
+.tagsForm button{
+    margin-top: 10px;
 }
 
 h4 {

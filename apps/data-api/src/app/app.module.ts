@@ -1,4 +1,5 @@
 import { Logger, MiddlewareConsumer, Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config'; // Add this line
 import { FeatureModule } from '@dreams/backend/features';
 import { AppController } from './app.controller';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -7,9 +8,9 @@ import { RouterModule } from '@nestjs/core';
 import { Neo4jModule } from 'nest-neo4j';
 import { environment } from '@dreams/shared/services';
 
-
 @Module({
   imports: [
+    ConfigModule.forRoot(), // Add this line
     AuthModule,
     FeatureModule,
     RouterModule.register([
@@ -46,7 +47,7 @@ import { environment } from '@dreams/shared/services';
       }
     }),
     Neo4jModule.forRoot({
-      scheme: 'bolt',
+      scheme: 'bolt+s',
       host: environment.neo4j.host,
       port: environment.neo4j.port,
       username: environment.neo4j.user,

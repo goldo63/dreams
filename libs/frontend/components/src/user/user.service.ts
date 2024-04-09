@@ -34,9 +34,17 @@ export class UserService {
     );
   }
 
-  updateUser(user: UserRegistration): Observable<UserRegistration> {
+  updateUser(user: UserRegistration): Observable<IAccount> {
     // Implement logic to update user data on the server
-    return this.http.put<UserRegistration>(`${this.apiUrl}/user/${user.account.id}`, user);
+    return this.http.put<IAccount>(`${this.apiUrl}/user/${user.account.id}`, user.account);
+  }
+
+  addFriend(friend: IAccount): Observable<IAccount> | null {
+    const url = `${this.apiUrl}/user/${this.authService.getAuthIdentifier()?.user.id}/friends/${friend.id}`;
+    if (this.authService.getAuthIdentifier()?.user.id === friend.id) {
+      return null;
+    }
+    return this.http.post<IAccount>(url, friend);
   }
 
   getReactions(): Observable<IReaction[]> {
