@@ -6,6 +6,7 @@ export const environment: IEnvironment = {
   port: 8080,
   mongoDBConnectionString: 'mongodb+srv://tpcwaerts:DreamsPass104@dreams.97auaox.mongodb.net/?retryWrites=true&w=majority&appName=dreams',
   neo4j: {
+    scheme: 'bolt+s',
     host: '77eac4ce.databases.neo4j.io',
     port: 7687,
     user: 'neo4j',

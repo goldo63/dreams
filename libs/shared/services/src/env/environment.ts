@@ -6,6 +6,7 @@ export const environment: IEnvironment = {
     port: 3000,
     mongoDBConnectionString: 'mongodb://localhost:27017/dreams',
     neo4j: {
+      scheme: 'bolt',
       host: 'localhost',
       port: 7687,
       user: 'neo4j',
